@@ -354,28 +354,7 @@
   .app.dismissed .admin-panel,
   .app.dismissed .to-panel { display: none; }
 
-  .return-btn {
-    position: fixed;
-    bottom: 24px;
-    left: 24px;
-    z-index: 10;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(40, 42, 48, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    color: rgba(255, 255, 255, 0.35);
-    font-size: 20px;
-    cursor: pointer;
-    transition: 0.2s ease;
-    display: none;
-    align-items: center;
-    justify-content: center;
-  }
-  .app.dismissed .return-btn { display: flex; }
-  .return-btn:hover { color: rgba(255, 255, 255, 0.7); background: rgba(50, 52, 58, 0.7); }
+
 
   /* Survey stars */
   .survey-stars {
@@ -603,7 +582,7 @@
     </div>
   </div>
 
-  <button class="return-btn" id="returnBtn" onclick="showMenu()" title="Open menu">&#9776;</button>
+
 </div>
 
 <script>
@@ -654,9 +633,6 @@
     document.getElementById('app').classList.add('dismissed');
   }
 
-  function showMenu() {
-    document.getElementById('app').classList.remove('dismissed');
-  }
 
   function rateStar(n) {
     document.querySelectorAll('#surveyStars .star').forEach((s, i) => {
