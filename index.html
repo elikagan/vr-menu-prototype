@@ -237,6 +237,8 @@
     width: 100%;
   }
   .admin-btn:hover { background: rgba(90, 92, 100, 0.55); color: rgba(255, 255, 255, 0.9); }
+  .admin-btn.hint-btn { background: rgba(100, 105, 115, 0.55); color: rgba(255, 255, 255, 0.85); }
+  .admin-btn.hint-btn:hover { background: rgba(110, 115, 125, 0.65); color: rgba(255, 255, 255, 1); }
 
   .admin-btn .off-label { color: #d4a843; font-weight: 600; }
   .admin-btn .on-label { color: #6abf7b; font-weight: 600; }
@@ -319,16 +321,17 @@
   <!-- Main Content Panel -->
   <div class="panel main-panel">
 
-    <!-- Screen 0: Onboarding -->
+    <!-- Screen 0: Current Step (landing) -->
     <div class="screen" id="screen-0">
       <div class="panel-header">
         <span class="panel-title">Sample Procedure Name</span>
+        <span class="step-counter"><strong>1</strong> of 14</span>
       </div>
       <div class="content-card">
-        <h2 class="content-title">Training Module Overview</h2>
+        <h2 class="content-title">Pre-Flight Systems Check</h2>
         <div class="content-body">
-          <p>This guided procedure will walk you through the required steps for the pre-flight systems check. Follow each instruction carefully and use the navigation controls to proceed.</p>
-          <p>You can access additional options from the menu panel on the right, including hints, the technical order page viewer, and the ability to re-center your headset view.</p>
+          <p><strong>3 steps — complete in order.</strong></p>
+          <p>Use <strong>Need a Hint?</strong> if you get stuck. Use <strong>GO FORWARD</strong> to begin.</p>
         </div>
       </div>
       <div class="nav">
@@ -337,18 +340,21 @@
       </div>
     </div>
 
-    <!-- Screen 1: Procedure Intro -->
+    <!-- Screen 1: Step 1 -->
     <div class="screen" id="screen-1">
       <div class="panel-header">
         <span class="panel-title">Procedure Instructions</span>
-        <span class="step-counter"><strong>1</strong> of 14</span>
+        <span class="step-counter"><strong>2</strong> of 14</span>
       </div>
       <div class="content-card">
-        <h2 class="content-title">Pre-Flight Systems Check</h2>
+        <h2 class="content-title">Verify Hydraulic Pressure</h2>
         <div class="content-body">
-          <p>You are about to perform a standard pre-flight systems check. This procedure consists of three steps that must be completed in order.</p>
-          <p>During the procedure you may encounter anomalies. If something doesn't look right, follow the on-screen prompts and use the hint system if you need guidance.</p>
-          <p><strong>Estimated duration:</strong> 10–15 minutes</p>
+          <p><strong>Center instrument panel, left of thrust indicators.</strong></p>
+          <ul class="checklist">
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>System A: 2,800–3,200 PSI</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>System B: 2,800–3,200 PSI</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>No amber warnings illuminated</li>
+          </ul>
         </div>
       </div>
       <div class="nav">
@@ -357,21 +363,21 @@
       </div>
     </div>
 
-    <!-- Screen 2: Step 1 -->
+    <!-- Screen 2: Step 2 -->
     <div class="screen" id="screen-2">
       <div class="panel-header">
         <span class="panel-title">Procedure Instructions</span>
-        <span class="step-counter"><strong>2</strong> of 14</span>
+        <span class="step-counter"><strong>3</strong> of 14</span>
       </div>
       <div class="content-card">
-        <h2 class="content-title">Verify Hydraulic Pressure Levels</h2>
+        <h2 class="content-title">Inspect Flight Controls</h2>
         <div class="content-body">
-          <p>Locate the hydraulic pressure gauge on the center instrument panel. The gauge is positioned to the left of the engine thrust indicators.</p>
-          <p><strong>Required action:</strong></p>
+          <p><strong>Visually confirm each surface moves correctly.</strong></p>
           <ul class="checklist">
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Confirm System A pressure reads between 2,800–3,200 PSI</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Confirm System B pressure reads between 2,800–3,200 PSI</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Verify no amber warning lights are illuminated</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Yoke full left — left aileron rises</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Yoke full right — right aileron rises</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Yoke forward — elevator deflects down</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Left rudder pedal — rudder deflects left</li>
           </ul>
         </div>
       </div>
@@ -381,22 +387,21 @@
       </div>
     </div>
 
-    <!-- Screen 3: Step 2 -->
+    <!-- Screen 3: Step 3 -->
     <div class="screen" id="screen-3">
       <div class="panel-header">
         <span class="panel-title">Procedure Instructions</span>
-        <span class="step-counter"><strong>3</strong> of 14</span>
+        <span class="step-counter"><strong>4</strong> of 14</span>
       </div>
       <div class="content-card">
-        <h2 class="content-title">Inspect Flight Control Surfaces</h2>
+        <h2 class="content-title">Confirm Avionics Status</h2>
         <div class="content-body">
-          <p>Perform a visual inspection of the primary flight control surfaces. Look out the cockpit windows to observe each control surface as you manipulate the controls.</p>
-          <p><strong>Required action:</strong></p>
+          <p><strong>Avionics panel — all systems nominal.</strong></p>
           <ul class="checklist">
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Move yoke full left — confirm left aileron rises</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Move yoke full right — confirm right aileron rises</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Push yoke forward — confirm elevator deflects down</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Apply left rudder pedal — confirm rudder deflects left</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>FMS initialized</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>NAV frequencies set</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Transponder squawk code assigned</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Autopilot self-test passed</li>
           </ul>
         </div>
       </div>
@@ -406,54 +411,21 @@
       </div>
     </div>
 
-    <!-- Screen 4: Step 3 -->
+    <!-- Screen 4: Procedure Complete -->
     <div class="screen" id="screen-4">
-      <div class="panel-header">
-        <span class="panel-title">Procedure Instructions</span>
-        <span class="step-counter"><strong>4</strong> of 14</span>
-      </div>
-      <div class="content-card">
-        <h2 class="content-title">Confirm Avionics System Status</h2>
-        <div class="content-body">
-          <p>Navigate to the avionics panel and verify that all primary systems are online and reporting nominal status.</p>
-          <p><strong>Required action:</strong></p>
-          <ul class="checklist">
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Verify FMS (Flight Management System) is initialized</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Confirm NAV radio frequencies are set correctly</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Check transponder is set to assigned squawk code</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Verify autopilot self-test has completed successfully</li>
-          </ul>
-        </div>
-      </div>
-      <div class="nav">
-        <button class="nav-btn" onclick="goTo(3)"><span class="arrow">&#8249;</span> Go Back</button>
-        <button class="nav-btn" onclick="goTo(5)">Go Forward <span class="arrow">&#8250;</span></button>
-      </div>
-    </div>
-
-    <!-- Screen 5: Survey / Closing -->
-    <div class="screen" id="screen-5">
       <div class="panel-header">
         <span class="panel-title">Procedure Complete</span>
       </div>
       <div class="content-card">
-        <h2 class="content-title">How would you rate this training?</h2>
+        <h2 class="content-title">Pre-Flight Check Complete</h2>
         <div class="content-body">
-          <p>You have successfully completed the Pre-Flight Systems Check.</p>
-          <div class="survey-stars" id="surveyStars">
-            <button class="star" onclick="rateStar(1)">&#9733;</button>
-            <button class="star" onclick="rateStar(2)">&#9733;</button>
-            <button class="star" onclick="rateStar(3)">&#9733;</button>
-            <button class="star" onclick="rateStar(4)">&#9733;</button>
-            <button class="star" onclick="rateStar(5)">&#9733;</button>
-          </div>
-          <p style="font-size:12px; margin-bottom:8px;">Any additional feedback?</p>
-          <textarea class="survey-textarea" placeholder="Share your thoughts..."></textarea>
+          <p><strong>All steps verified.</strong> You may now close this menu and continue with the experience.</p>
+          <p>Use <strong>EXIT</strong> to return to the VR environment.</p>
         </div>
       </div>
       <div class="nav">
-        <button class="nav-btn" onclick="goTo(4)"><span class="arrow">&#8249;</span> Go Back</button>
-        <button class="nav-btn" onclick="alert('Submitted. (Demo)')">Submit</button>
+        <button class="nav-btn" onclick="goTo(3)"><span class="arrow">&#8249;</span> Go Back</button>
+        <button class="nav-btn" onclick="dismissMenu()">Return to Experience <span class="arrow">&#8250;</span></button>
       </div>
     </div>
   </div>
@@ -462,7 +434,7 @@
   <div class="panel admin-panel" id="adminPanel">
     <button class="admin-btn exit-top" onclick="dismissMenu()">Exit &times;</button>
     <div class="admin-buttons">
-      <button class="admin-btn" onclick="alert('Hint: Check the instrument panel readings against reference values. (Demo)')">Need a Hint?</button>
+      <button class="admin-btn hint-btn" onclick="alert('Hint: Check the instrument panel readings against reference values. (Demo)')">Need a Hint?</button>
       <button class="admin-btn" id="toPageBtn" onclick="toggleBtn(this, 'TO Page Viewer:')">TO Page Viewer: <span class="off-label">OFF</span></button>
       <button class="admin-btn" onclick="alert('Headset re-centered. (Demo)')">Re-center Headset in View</button>
       <button class="admin-btn" id="advModeBtn" onclick="toggleBtn(this, 'Advanced Mode:')">Advanced Mode: <span class="off-label">OFF</span></button>
@@ -474,7 +446,7 @@
 </div>
 
 <script>
-  const TOTAL_SCREENS = 6;
+  const TOTAL_SCREENS = 5;
   let currentScreen = 0;
 
   function goTo(index) {
