@@ -193,6 +193,112 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* ============ T.O. PAGE PANEL (left) ============ */
+  .to-panel {
+    width: 420px;
+    height: 600px;
+    padding: 24px;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    order: -1;
+  }
+  .to-panel.visible { display: flex; }
+
+  .to-panel .to-header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 12px;
+    flex-shrink: 0;
+  }
+
+  .to-page {
+    flex: 1;
+    min-height: 0;
+    background: rgba(235, 228, 210, 0.92);
+    border-radius: 6px;
+    padding: 32px 28px;
+    overflow-y: auto;
+    font-family: 'Courier New', Courier, monospace;
+    color: #1a1a1a;
+  }
+
+  .to-page::-webkit-scrollbar { width: 8px; }
+  .to-page::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 4px; }
+  .to-page::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
+  .to-page::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.3); }
+
+  .to-page .to-doc-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid #1a1a1a;
+  }
+  .to-page .to-doc-header .to-number {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .to-page .to-doc-header .to-doc-title {
+    font-size: 11px;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .to-page .to-doc-header .to-doc-subtitle {
+    font-size: 10px;
+    margin-top: 2px;
+    color: #444;
+  }
+
+  .to-page .to-section {
+    margin-top: 18px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: underline;
+    letter-spacing: 0.3px;
+  }
+
+  .to-page .to-para-num {
+    margin-top: 14px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .to-page .to-text {
+    font-size: 10.5px;
+    line-height: 1.65;
+    margin-top: 4px;
+    color: #222;
+  }
+
+  .to-page .to-sub {
+    margin-top: 6px;
+    padding-left: 18px;
+    font-size: 10.5px;
+    line-height: 1.65;
+    color: #222;
+  }
+
+  .to-page .to-warning {
+    margin: 12px 0;
+    padding: 8px 10px;
+    border: 1.5px solid #1a1a1a;
+    font-size: 10px;
+    line-height: 1.5;
+    text-align: center;
+  }
+  .to-page .to-warning strong {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+
   /* ============ RIGHT PANEL — pill buttons ============ */
   .admin-panel {
     width: 280px;
@@ -245,7 +351,8 @@
 
   /* Dismissed state */
   .app.dismissed .main-panel,
-  .app.dismissed .admin-panel { display: none; }
+  .app.dismissed .admin-panel,
+  .app.dismissed .to-panel { display: none; }
 
   .return-btn {
     position: fixed;
@@ -315,6 +422,62 @@
 <div class="bg"></div>
 
 <div class="app" id="app">
+
+  <!-- T.O. Page Panel (left, toggled) -->
+  <div class="panel to-panel" id="toPanel">
+    <div class="to-header">T.O. 1F-16CJ-2-00GS-00-1 &mdash; Page 2-3</div>
+    <div class="to-page">
+      <div class="to-doc-header">
+        <div class="to-number">T.O. 1F-16CJ-2-00GS-00-1</div>
+        <div class="to-doc-title">General System — Organizational Maintenance</div>
+        <div class="to-doc-subtitle">Preflight / Postflight Inspection Procedures</div>
+      </div>
+
+      <div class="to-section">Section II — Preflight Inspection</div>
+
+      <div class="to-para-num">2-1. GENERAL.</div>
+      <div class="to-text">This section contains procedures for performing preflight inspection of aircraft systems. All inspections shall be performed in the sequence listed. Refer to applicable work cards for detailed requirements.</div>
+
+      <div class="to-warning">
+        <strong>&#9888; WARNING</strong>
+        Ensure all ground safety pins are installed and hydraulic pressure is verified before performing flight control checks. Failure to comply may result in injury or death.
+      </div>
+
+      <div class="to-para-num">2-2. HYDRAULIC SYSTEM CHECK.</div>
+      <div class="to-sub">a. Verify System A pressure gauge indicates between 2,800 and 3,200 PSI. Gauge is located on center instrument panel, left of thrust indicators.</div>
+      <div class="to-sub">b. Verify System B pressure gauge indicates between 2,800 and 3,200 PSI.</div>
+      <div class="to-sub">c. Check that no amber HYD advisory warnings are illuminated on caution panel.</div>
+      <div class="to-sub">d. If pressure is not within limits, do not continue. Refer to T.O. 1F-16CJ-2-70GS-00-1 for troubleshooting procedures.</div>
+
+      <div class="to-para-num">2-3. FLIGHT CONTROL OPERATIONAL CHECK.</div>
+      <div class="to-sub">a. Move control stick full LEFT. Verify left aileron trailing edge rises and right aileron trailing edge lowers.</div>
+      <div class="to-sub">b. Move control stick full RIGHT. Verify right aileron trailing edge rises and left aileron trailing edge lowers.</div>
+      <div class="to-sub">c. Move control stick full FORWARD. Verify elevator trailing edge deflects downward.</div>
+      <div class="to-sub">d. Depress left rudder pedal fully. Verify rudder deflects left.</div>
+      <div class="to-sub">e. Return all controls to neutral position.</div>
+
+      <div class="to-warning">
+        <strong>CAUTION</strong>
+        Do not exceed normal control force limits during operational check. Excessive force may damage flight control linkages.
+      </div>
+
+      <div class="to-para-num">2-4. AVIONICS SYSTEMS VERIFICATION.</div>
+      <div class="to-sub">a. Verify Flight Management System (FMS) has completed initialization. INIT complete message shall be displayed on CDU.</div>
+      <div class="to-sub">b. Verify NAV radio frequencies are set per mission briefing requirements.</div>
+      <div class="to-sub">c. Verify transponder squawk code is set per ATC assignment or mission briefing.</div>
+      <div class="to-sub">d. Initiate autopilot Built-In Test (BIT). Verify BIT completes with no faults displayed.</div>
+
+      <div class="to-para-num">2-5. ENGINE INSTRUMENT CHECK.</div>
+      <div class="to-sub">a. Verify oil pressure indication is within normal operating range (40-65 PSI).</div>
+      <div class="to-sub">b. Verify exhaust gas temperature (EGT) is within normal idle limits.</div>
+      <div class="to-sub">c. Verify fuel flow indication matches expected idle flow rate.</div>
+
+      <div class="to-section">Section III — Post-Start Procedures</div>
+
+      <div class="to-para-num">3-1. GENERAL.</div>
+      <div class="to-text">Following engine start and completion of preflight checks, perform the following post-start procedures prior to taxi. All items shall be completed sequentially.</div>
+    </div>
+  </div>
 
   <!-- Main Content Panel -->
   <div class="panel main-panel">
@@ -433,7 +596,7 @@
     <button class="admin-btn exit-top" onclick="dismissMenu()">Exit &times;</button>
     <div class="admin-buttons">
       <button class="admin-btn hint-btn" onclick="alert('Hint: Check the instrument panel readings against reference values. (Demo)')">Need a Hint?</button>
-      <button class="admin-btn" id="toPageBtn" onclick="toggleBtn(this, 'TO Page Viewer:')">TO Page Viewer: <span class="off-label">OFF</span></button>
+      <button class="admin-btn" id="toPageBtn" onclick="toggleTO(this)">T.O. Page Viewer: <span class="off-label">OFF</span></button>
       <button class="admin-btn" onclick="alert('Headset re-centered. (Demo)')">Re-center Headset in View</button>
       <button class="admin-btn" id="advModeBtn" onclick="toggleBtn(this, 'Advanced Mode:')">Advanced Mode: <span class="off-label">OFF</span></button>
       <button class="admin-btn" onclick="dismissMenu()">Exit Procedure</button>
@@ -467,6 +630,24 @@
       span.textContent = 'OFF';
     }
     el.childNodes[0].textContent = label + ' ';
+  }
+
+  function toggleTO(el) {
+    const panel = document.getElementById('toPanel');
+    const span = el.querySelector('span');
+    const isOff = span.classList.contains('off-label');
+    if (isOff) {
+      panel.classList.add('visible');
+      span.classList.remove('off-label');
+      span.classList.add('on-label');
+      span.textContent = 'ON';
+    } else {
+      panel.classList.remove('visible');
+      span.classList.remove('on-label');
+      span.classList.add('off-label');
+      span.textContent = 'OFF';
+    }
+    el.childNodes[0].textContent = 'T.O. Page Viewer: ';
   }
 
   function dismissMenu() {
