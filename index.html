@@ -249,28 +249,26 @@
 
   .return-btn {
     position: fixed;
-    bottom: 48px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 24px;
+    left: 24px;
     z-index: 10;
-    padding: 14px 32px;
-    border-radius: 32px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
     border: none;
-    background: rgba(40, 42, 48, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    color: rgba(255, 255, 255, 0.6);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    background: rgba(40, 42, 48, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 20px;
     cursor: pointer;
     transition: 0.2s ease;
     display: none;
+    align-items: center;
+    justify-content: center;
   }
-  .app.dismissed .return-btn { display: block; }
-  .return-btn:hover { color: rgba(255, 255, 255, 0.9); background: rgba(50, 52, 58, 0.9); }
+  .app.dismissed .return-btn { display: flex; }
+  .return-btn:hover { color: rgba(255, 255, 255, 0.7); background: rgba(50, 52, 58, 0.7); }
 
   /* Survey stars */
   .survey-stars {
@@ -442,7 +440,7 @@
     </div>
   </div>
 
-  <button class="return-btn" id="returnBtn" onclick="showMenu()">Return to Procedure</button>
+  <button class="return-btn" id="returnBtn" onclick="showMenu()" title="Open menu">&#9776;</button>
 </div>
 
 <script>
