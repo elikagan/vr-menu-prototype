@@ -381,7 +381,60 @@
   .hamburger-btn { display: none; }
   .hamburger-btn:hover { color: rgba(255, 255, 255, 0.85); background: rgba(50, 52, 58, 0.8); }
   .app.dismissed ~ .hamburger-btn { display: flex; }
+  .adv-toolbar.visible ~ .hamburger-btn { display: none !important; }
 
+  /* ============ ADVANCED MODE TOOLBAR ============ */
+  .adv-toolbar {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: none;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 8px;
+    background: rgba(40, 42, 48, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 32px;
+    white-space: nowrap;
+  }
+  .adv-toolbar.visible { display: flex; }
+
+  .adv-group { display: flex; gap: 6px; }
+
+  .adv-separator {
+    width: 1px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.12);
+    margin: 0 8px;
+    flex-shrink: 0;
+  }
+
+  .adv-btn {
+    border-radius: 20px;
+    padding: 10px 18px;
+    border: none;
+    background: rgba(80, 82, 88, 0.5);
+    color: rgba(255, 255, 255, 0.7);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.2s ease;
+  }
+  .adv-btn:hover { background: rgba(90, 92, 100, 0.6); color: rgba(255, 255, 255, 0.9); }
+
+  .adv-exit {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.45);
+    padding: 10px 14px;
+  }
+  .adv-exit:hover { background: transparent; color: rgba(255, 255, 255, 0.8); }
 
   /* Likert scale */
   .likert-scale {
@@ -631,12 +684,27 @@
       <button class="admin-btn hint-btn" onclick="alert('Hint: Check the instrument panel readings against reference values. (Demo)')">Need a Hint?</button>
       <button class="admin-btn" id="toPageBtn" onclick="toggleTO(this)">T.O. Page Viewer: <span class="off-label">OFF</span></button>
       <button class="admin-btn" onclick="alert('Headset re-centered. (Demo)')">Re-center Headset</button>
-      <button class="admin-btn" id="advModeBtn" onclick="toggleBtn(this, 'Advanced Mode:')">Advanced Mode: <span class="off-label">OFF</span></button>
+      <button class="admin-btn" id="advModeBtn" onclick="toggleAdvMode(this)">Advanced Mode: <span class="off-label">OFF</span></button>
       <button class="admin-btn" onclick="dismissMenu()">Exit Procedure</button>
     </div>
   </div>
 
 
+</div>
+
+<div class="adv-toolbar" id="advToolbar">
+  <div class="adv-group">
+    <button class="adv-btn" onclick="advPrev()">&#8249; Back to Previous Step</button>
+    <button class="adv-btn" onclick="advNext()">Force skip to Next Step &#8250;</button>
+  </div>
+  <div class="adv-separator"></div>
+  <div class="adv-group">
+    <button class="adv-btn" onclick="alert('Annotation placed. (Demo)')">Add Annotation</button>
+    <button class="adv-btn" id="thumbstickBtn" onclick="toggleAdvBtn(this, 'Thumbstick Motion:')">Thumbstick Motion: <span class="on-label">ON</span></button>
+    <button class="adv-btn" onclick="alert('Headset re-centered. (Demo)')">Re-center Headset</button>
+  </div>
+  <div class="adv-separator"></div>
+  <button class="adv-btn adv-exit" onclick="exitAdvancedMode()">Exit Advanced Mode &#10005;</button>
 </div>
 
 <button class="hamburger-btn" onclick="showMenu()">&#9776;</button>
@@ -691,6 +759,60 @@
 
   function showMenu() {
     document.getElementById('app').classList.remove('dismissed');
+  }
+
+  function enterAdvancedMode() {
+    document.getElementById('app').classList.add('dismissed');
+    document.getElementById('advToolbar').classList.add('visible');
+  }
+
+  function exitAdvancedMode() {
+    document.getElementById('advToolbar').classList.remove('visible');
+    document.getElementById('app').classList.remove('dismissed');
+    // Reset the admin panel button to OFF
+    const btn = document.getElementById('advModeBtn');
+    const span = btn.querySelector('span');
+    span.classList.remove('on-label');
+    span.classList.add('off-label');
+    span.textContent = 'OFF';
+    btn.childNodes[0].textContent = 'Advanced Mode: ';
+  }
+
+  function toggleAdvMode(el) {
+    const span = el.querySelector('span');
+    const isOff = span.classList.contains('off-label');
+    if (isOff) {
+      span.classList.remove('off-label');
+      span.classList.add('on-label');
+      span.textContent = 'ON';
+      el.childNodes[0].textContent = 'Advanced Mode: ';
+      enterAdvancedMode();
+    } else {
+      exitAdvancedMode();
+    }
+  }
+
+  function advPrev() {
+    if (currentScreen > 0) goTo(currentScreen - 1);
+  }
+
+  function advNext() {
+    if (currentScreen < 3) goTo(currentScreen + 1);
+  }
+
+  function toggleAdvBtn(el, label) {
+    const span = el.querySelector('span');
+    const isOff = span.classList.contains('off-label');
+    if (isOff) {
+      span.classList.remove('off-label');
+      span.classList.add('on-label');
+      span.textContent = 'ON';
+    } else {
+      span.classList.remove('on-label');
+      span.classList.add('off-label');
+      span.textContent = 'OFF';
+    }
+    el.childNodes[0].textContent = label + ' ';
   }
 
   // Build 1-10 Likert scale
