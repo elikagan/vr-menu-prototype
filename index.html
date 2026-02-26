@@ -383,26 +383,34 @@
   .app.dismissed ~ .hamburger-btn { display: flex; }
 
 
-  /* Survey stars */
-  .survey-stars {
+  /* Likert scale */
+  .likert-scale {
     display: flex;
     gap: 6px;
-    margin: 12px 0;
+    margin: 14px 0;
   }
-  .star {
+  .likert-btn {
     width: 36px; height: 36px;
     border-radius: 8px;
     border: none;
     background: rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.25);
-    font-size: 16px;
+    color: rgba(255, 255, 255, 0.35);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: 0.2s ease;
   }
-  .star:hover, .star.active {
-    background: rgba(212, 168, 67, 0.15);
-    color: #d4a843;
+  .likert-btn:hover { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.7); }
+  .likert-btn.active { background: rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.9); }
+  .likert-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 4px;
+    max-width: 420px;
   }
 
   .survey-textarea {
@@ -592,7 +600,28 @@
       </div>
       <div class="nav">
         <button class="nav-btn" onclick="goTo(3)"><span class="arrow">&#8249;</span> Go Back</button>
-        <button class="nav-btn" onclick="dismissMenu()">Return to Experience <span class="arrow">&#8250;</span></button>
+        <button class="nav-btn" onclick="goTo(5)">Go Forward <span class="arrow">&#8250;</span></button>
+      </div>
+    </div>
+
+    <!-- Screen 5: Feedback -->
+    <div class="screen" id="screen-5">
+      <div class="panel-header">
+        <span class="panel-title">Feedback</span>
+      </div>
+      <div class="content-card">
+        <h2 class="content-title">How helpful were these instructions?</h2>
+        <div class="content-body">
+          <p>Rate your experience on a scale of 1 to 10.</p>
+          <div class="likert-scale" id="likertScale"></div>
+          <div class="likert-labels"><span>Not helpful</span><span>Very helpful</span></div>
+          <p style="margin-top: 16px;">Any additional feedback?</p>
+          <textarea class="survey-textarea" placeholder="Optional comments..."></textarea>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="nav-btn" onclick="goTo(4)"><span class="arrow">&#8249;</span> Go Back</button>
+        <button class="nav-btn" onclick="dismissMenu()">Submit &amp; Exit</button>
       </div>
     </div>
   </div>
@@ -615,7 +644,7 @@
 <button class="hamburger-btn" onclick="showMenu()">&#9776;</button>
 
 <script>
-  const TOTAL_SCREENS = 5;
+  const TOTAL_SCREENS = 6;
   let currentScreen = 0;
 
   function goTo(index) {
@@ -666,11 +695,20 @@
     document.getElementById('app').classList.remove('dismissed');
   }
 
-  function rateStar(n) {
-    document.querySelectorAll('#surveyStars .star').forEach((s, i) => {
-      s.classList.toggle('active', i < n);
-    });
-  }
+  // Build 1-10 Likert scale
+  (function() {
+    const container = document.getElementById('likertScale');
+    for (let i = 1; i <= 10; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'likert-btn';
+      btn.textContent = i;
+      btn.onclick = function() {
+        container.querySelectorAll('.likert-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+      };
+      container.appendChild(btn);
+    }
+  })();
 
   goTo(0);
 </script>
