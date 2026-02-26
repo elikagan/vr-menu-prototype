@@ -6,6 +6,7 @@
 <title>VR Procedure Menu — Prototype</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add_comment,gps_fixed,sports_esports');
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -436,6 +437,24 @@
   }
   .adv-exit:hover { background: transparent; color: rgba(255, 255, 255, 0.8); }
 
+  .adv-icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .adv-icon-btn .material-symbols-outlined {
+    font-size: 20px;
+    line-height: 1;
+  }
+  .adv-icon-btn.adv-off {
+    background: rgba(60, 62, 66, 0.3);
+    color: rgba(255, 255, 255, 0.18);
+  }
+
   /* Likert scale */
   .likert-scale {
     display: flex;
@@ -699,9 +718,9 @@
   </div>
   <div class="adv-separator"></div>
   <div class="adv-group">
-    <button class="adv-btn" onclick="alert('Annotation placed. (Demo)')">Add Annotation</button>
-    <button class="adv-btn" id="thumbstickBtn" onclick="toggleAdvBtn(this, 'Thumbstick Motion:')">Thumbstick Motion: <span class="on-label">ON</span></button>
-    <button class="adv-btn" onclick="alert('Headset re-centered. (Demo)')">Re-center Headset</button>
+    <button class="adv-btn adv-icon-btn" onclick="alert('Annotation placed. (Demo)')" title="Add Annotation"><span class="material-symbols-outlined">add_comment</span></button>
+    <button class="adv-btn adv-icon-btn" id="thumbstickBtn" onclick="toggleThumbstick(this)" title="Thumbstick Motion"><span class="material-symbols-outlined">sports_esports</span></button>
+    <button class="adv-btn adv-icon-btn" onclick="alert('Headset re-centered. (Demo)')" title="Re-center Headset"><span class="material-symbols-outlined">gps_fixed</span></button>
   </div>
   <div class="adv-separator"></div>
   <button class="adv-btn adv-exit" onclick="exitAdvancedMode()">Exit Advanced Mode &#10005;</button>
@@ -800,19 +819,8 @@
     if (currentScreen < 3) goTo(currentScreen + 1);
   }
 
-  function toggleAdvBtn(el, label) {
-    const span = el.querySelector('span');
-    const isOff = span.classList.contains('off-label');
-    if (isOff) {
-      span.classList.remove('off-label');
-      span.classList.add('on-label');
-      span.textContent = 'ON';
-    } else {
-      span.classList.remove('on-label');
-      span.classList.add('off-label');
-      span.textContent = 'OFF';
-    }
-    el.childNodes[0].textContent = label + ' ';
+  function toggleThumbstick(el) {
+    el.classList.toggle('adv-off');
   }
 
   // Build 1-10 Likert scale
