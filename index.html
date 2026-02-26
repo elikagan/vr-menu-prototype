@@ -376,7 +376,9 @@
     justify-content: center;
     transition: 0.2s ease;
   }
+  .hamburger-btn { display: none; }
   .hamburger-btn:hover { color: rgba(255, 255, 255, 0.85); background: rgba(50, 52, 58, 0.8); }
+  .app.dismissed ~ .hamburger-btn { display: flex; }
 
 
   /* Survey stars */
@@ -422,8 +424,6 @@
 <body>
 
 <div class="bg"></div>
-
-<button class="hamburger-btn" onclick="showMenu()">&#9776;</button>
 
 <div class="app" id="app">
 
@@ -609,6 +609,8 @@
 
 
 </div>
+
+<button class="hamburger-btn" onclick="showMenu()">&#9776;</button>
 
 <script>
   const TOTAL_SCREENS = 5;
