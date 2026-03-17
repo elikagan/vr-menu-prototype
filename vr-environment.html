@@ -829,13 +829,13 @@ function updatePanel3D(panel) {
   const nx = (cx - screenCX) / (window.innerWidth / 2);
   const ny = (cy - screenCY) / (window.innerHeight / 2);
 
-  // Rotate up to 25 degrees based on position
-  const rotY = -nx * 25;
-  const rotX = ny * 8;
+  // Rotate based on position — panels orbit the sphere
+  const rotY = -nx * 28;
+  const rotX = -ny * 22; // negative: bottom panels tilt top toward viewer
 
   // Slight scale reduction at edges
   const dist = Math.sqrt(nx * nx + ny * ny);
-  const scale = 1 - dist * 0.04;
+  const scale = 1 - dist * 0.05;
 
   // Only apply the 3D rotation (preserve any existing translate transforms)
   const existingTransform = panel.dataset.baseTransform || '';
