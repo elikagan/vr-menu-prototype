@@ -656,14 +656,6 @@
     </div>
   </div>
 
-  <!-- Admin Panel (right side — streamlined) -->
-  <div class="panel admin-panel" id="adminPanel" style="top: 50%; right: 40px; transform: translateY(-50%);">
-    <div class="admin-buttons" style="display:flex; flex-direction:column; gap:6px;">
-      <button class="admin-btn hint-btn" onclick="alert('Hint: Check the instrument panel readings against reference values. (Demo)')">Need a Hint?</button>
-      <button class="admin-btn" id="toPageBtn" onclick="toggleTOFromBar()">T.O. Page Viewer: <span class="off-label">OFF</span></button>
-      <button class="admin-btn" onclick="alert('Headset re-centered. (Demo)')">Re-center</button>
-    </div>
-  </div>
 
 
 </div>
@@ -687,7 +679,7 @@
   <div class="bar-group">
     <button class="bar-btn bar-icon-btn" onclick="alert('Annotation placed. (Demo)')" title="Add Annotation"><span class="material-symbols-outlined">add_comment</span></button>
     <button class="bar-btn bar-icon-btn" id="thumbstickBtn" onclick="toggleThumbstick(this)" title="Thumbstick Motion"><span class="material-symbols-outlined">sports_esports</span></button>
-    <button class="bar-btn bar-icon-btn" onclick="alert('Headset re-centered. (Demo)')" title="Re-center"><span class="material-symbols-outlined">gps_fixed</span></button>
+    <button class="bar-btn bar-icon-btn" onclick="recenterCamera()" title="Re-center"><span class="material-symbols-outlined">gps_fixed</span></button>
   </div>
   <div class="bar-separator"></div>
   <div class="bar-group">
@@ -982,6 +974,11 @@ window.toggleTOFromBar = function() {
   setTimeout(updateAllPanels3D, 50);
 };
 
+window.recenterCamera = function() {
+  rot.yaw = 0;
+  rot.pitch = 0;
+};
+
 window.advPrev = function() { if (currentScreen > 0) goTo(currentScreen - 1); };
 window.advNext = function() { if (currentScreen < 3) goTo(currentScreen + 1); };
 window.toggleThumbstick = function(el) { el.classList.toggle('adv-off'); };
@@ -1003,7 +1000,6 @@ window.toggleThumbstick = function(el) { el.classList.toggle('adv-off'); };
 
 // Store base transforms for 3D calculation
 document.getElementById('mainPanel').dataset.baseTransform = 'translateY(-50%)';
-document.getElementById('adminPanel').dataset.baseTransform = 'translateY(-50%)';
 document.getElementById('toPanel').dataset.baseTransform = 'translateY(-50%)';
 
 // ══════════════════════════════════════════
