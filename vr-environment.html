@@ -6,6 +6,7 @@
 <title>VR Menu — 3D Environment</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add_comment,gps_fixed,sports_esports');
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -15,232 +16,688 @@
     font-family: 'Inter', -apple-system, sans-serif;
     background: #000;
     color: rgba(255, 255, 255, 0.9);
+    cursor: none;
   }
 
   canvas { display: block; }
 
-  /* ── Laser pointer cursor ── */
-  body {
-    cursor: none;
-  }
-
-  #laser-dot {
-    position: fixed;
-    pointer-events: none;
-    z-index: 10000;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(120,180,255,0.9) 40%, rgba(80,140,255,0.4) 70%, transparent 100%);
-    box-shadow: 0 0 8px 2px rgba(100,160,255,0.6), 0 0 20px 4px rgba(80,140,255,0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.1s, height 0.1s;
-  }
-
-  #laser-dot.clicking {
-    width: 18px;
-    height: 18px;
-    box-shadow: 0 0 12px 4px rgba(100,160,255,0.8), 0 0 30px 8px rgba(80,140,255,0.5);
-  }
-
-  /* ── HUD overlay ── */
-  #hud {
+  /* ── Laser beam (SVG overlay) ── */
+  #laser-svg {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     pointer-events: none;
-    z-index: 100;
+    z-index: 9999;
+  }
+
+  /* ── Laser dot (cursor endpoint) ── */
+  #laser-dot {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10000;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff 0%, rgba(160,200,255,0.9) 40%, rgba(100,160,255,0.4) 70%, transparent 100%);
+    box-shadow: 0 0 6px 2px rgba(140,180,255,0.6), 0 0 16px 4px rgba(100,150,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.08s, height 0.08s;
+  }
+
+  #laser-dot.clicking {
+    width: 16px;
+    height: 16px;
+    box-shadow: 0 0 10px 4px rgba(140,180,255,0.8), 0 0 24px 8px rgba(100,150,255,0.5);
   }
 
   /* ── Controls hint ── */
   #controls-hint {
     position: fixed;
-    bottom: 24px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 200;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
-    color: rgba(255,255,255,0.4);
-    letter-spacing: 0.02em;
+    color: rgba(255,255,255,0.35);
     display: flex;
-    gap: 20px;
+    gap: 18px;
     transition: opacity 0.5s;
   }
-
   #controls-hint kbd {
     display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.15);
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    margin: 0 2px;
-  }
-
-  /* ── Sample HUD menu panel ── */
-  .hud-panel {
-    position: absolute;
-    pointer-events: auto;
-    background: rgba(20, 22, 28, 0.75);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 16px 20px;
-    min-width: 220px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    cursor: grab;
-    user-select: none;
-  }
-
-  .hud-panel:active { cursor: grabbing; }
-
-  .hud-panel h3 {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.45);
-    margin-bottom: 12px;
-  }
-
-  .hud-panel .menu-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 10px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 400;
-    color: rgba(255,255,255,0.8);
-    transition: background 0.15s;
-    cursor: pointer;
-  }
-
-  .hud-panel .menu-item:hover {
+    padding: 1px 6px;
+    border-radius: 3px;
     background: rgba(255,255,255,0.08);
-    color: #fff;
+    border: 1px solid rgba(255,255,255,0.12);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    margin: 0 1px;
   }
 
-  .hud-panel .menu-item .icon {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    background: rgba(100,160,255,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: rgba(120,180,255,0.9);
-    flex-shrink: 0;
-  }
-
-  .hud-panel .status-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 10px;
-    font-size: 13px;
-    color: rgba(255,255,255,0.5);
-  }
-
-  .hud-panel .status-row .value {
-    color: rgba(255,255,255,0.8);
-    font-weight: 500;
-  }
-
-  .hud-panel .status-row .value.good { color: rgba(80,200,120,0.9); }
-  .hud-panel .status-row .value.warn { color: rgba(255,180,60,0.9); }
-
-  .hud-panel .divider {
-    height: 1px;
-    background: rgba(255,255,255,0.06);
-    margin: 8px 0;
-  }
-
-  /* ── Crosshair (center reticle) ── */
+  /* ── Center reticle ── */
   #reticle {
     position: fixed;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 150;
     pointer-events: none;
-    opacity: 0.2;
+    opacity: 0.15;
   }
-
   #reticle::before, #reticle::after {
     content: '';
     position: absolute;
     background: rgba(255,255,255,0.5);
   }
-  #reticle::before { width: 1px; height: 16px; left: 50%; top: 50%; transform: translate(-50%, -50%); }
-  #reticle::after { width: 16px; height: 1px; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+  #reticle::before { width: 1px; height: 14px; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+  #reticle::after { width: 14px; height: 1px; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+
+  /* ══════════════════════════════════════════════
+     HUD PANELS — 3D perspective panels
+     ══════════════════════════════════════════════ */
+  #hud {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 100;
+    perspective: 1200px;
+    perspective-origin: 50% 50%;
+  }
+
+  /* ── Panel base (matches original prototype styling) ── */
+  .panel {
+    position: absolute;
+    pointer-events: auto;
+    background: rgba(40, 42, 48, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    cursor: grab;
+    user-select: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transform-style: preserve-3d;
+  }
+  .panel:active { cursor: grabbing; }
+  .panel.dragging { box-shadow: 0 12px 48px rgba(0,0,0,0.6); }
+
+  /* ── MAIN PANEL (procedure instructions) ── */
+  .main-panel {
+    width: 420px;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 22px 18px;
+    overflow: hidden;
+    max-height: 380px;
+  }
+
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+  }
+  .panel-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .step-counter {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+  }
+  .step-counter strong {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+  }
+
+  .content-card {
+    background: rgba(60, 62, 68, 0.5);
+    border-radius: 10px;
+    padding: 16px 8px 14px 18px;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .content-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .content-body {
+    font-size: 12px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 14px;
+  }
+  .content-body p + p { margin-top: 10px; }
+  .content-body strong { color: rgba(255, 255, 255, 0.75); font-weight: 500; }
+
+  .content-body::-webkit-scrollbar { width: 6px; }
+  .content-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); border-radius: 3px; }
+  .content-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+
+  /* Checklist */
+  .checklist { list-style: none; margin-top: 6px; }
+  .checklist li {
+    padding: 6px 10px;
+    margin-bottom: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.55);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+  .checklist li:hover { background: rgba(255, 255, 255, 0.07); }
+  .checklist li.checked { color: rgba(255, 255, 255, 0.3); text-decoration: line-through; }
+  .checklist li .check-icon {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 9px;
+    transition: 0.2s ease;
+  }
+  .checklist li.checked .check-icon {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: white;
+  }
+
+  /* Nav buttons */
+  .nav {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-shrink: 0;
+  }
+  .nav-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 12px;
+    border: none;
+    border-radius: 24px;
+    background: rgba(80, 82, 88, 0.5);
+    color: rgba(255, 255, 255, 0.7);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+  .nav-btn:hover { background: rgba(90, 92, 100, 0.6); color: rgba(255, 255, 255, 0.9); }
+  .nav-btn:disabled { opacity: 0.3; pointer-events: none; }
+  .nav-btn .arrow { font-size: 14px; }
+
+  /* Screen switching */
+  .screen {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    animation: fadeIn 0.3s ease;
+  }
+  .screen.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── ADMIN/ACTIONS PANEL (right side) ── */
+  .admin-panel {
+    width: 190px;
+    padding: 14px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .admin-panel .exit-top {
+    margin-bottom: 16px;
+    width: auto;
+    align-self: flex-end;
+  }
+
+  .admin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 22px;
+    background: rgba(80, 82, 88, 0.45);
+    color: rgba(255, 255, 255, 0.7);
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.2s ease;
+    text-align: center;
+    width: 100%;
+  }
+  .admin-btn:hover { background: rgba(90, 92, 100, 0.55); color: rgba(255, 255, 255, 0.9); }
+  .admin-btn.hint-btn { background: rgba(100, 105, 115, 0.55); color: rgba(255, 255, 255, 0.85); }
+  .admin-btn.hint-btn:hover { background: rgba(110, 115, 125, 0.65); color: rgba(255, 255, 255, 1); }
+  .admin-btn .off-label { color: #d4a843; font-weight: 600; }
+  .admin-btn .on-label { color: #6abf7b; font-weight: 600; }
+
+  /* ── T.O. PAGE PANEL ── */
+  .to-panel {
+    width: 280px;
+    padding: 14px;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .to-panel.visible { display: flex; }
+
+  .to-panel .to-header {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 10px;
+    flex-shrink: 0;
+  }
+
+  .to-page {
+    flex: 1;
+    min-height: 0;
+    background: rgba(235, 228, 210, 0.92);
+    border-radius: 6px;
+    padding: 24px 22px;
+    overflow-y: auto;
+    font-family: 'Courier New', Courier, monospace;
+    color: #1a1a1a;
+  }
+  .to-page::-webkit-scrollbar { width: 6px; }
+  .to-page::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 3px; }
+  .to-page::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
+
+  .to-page .to-doc-header {
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1.5px solid #1a1a1a;
+  }
+  .to-page .to-doc-header .to-number { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+  .to-page .to-doc-header .to-doc-title { font-size: 10px; margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .to-page .to-doc-header .to-doc-subtitle { font-size: 9px; margin-top: 2px; color: #444; }
+
+  .to-page .to-section { margin-top: 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; text-decoration: underline; letter-spacing: 0.3px; }
+  .to-page .to-para-num { margin-top: 12px; font-size: 10px; font-weight: 700; }
+  .to-page .to-text { font-size: 9.5px; line-height: 1.65; margin-top: 3px; color: #222; }
+  .to-page .to-sub { margin-top: 5px; padding-left: 16px; font-size: 9.5px; line-height: 1.65; color: #222; }
+  .to-page .to-warning {
+    margin: 10px 0;
+    padding: 6px 8px;
+    border: 1.5px solid #1a1a1a;
+    font-size: 9px;
+    line-height: 1.5;
+    text-align: center;
+  }
+  .to-page .to-warning strong { display: block; font-size: 10px; letter-spacing: 2px; margin-bottom: 3px; }
+
+  /* ── Likert scale (feedback screen) ── */
+  .likert-scale { display: flex; gap: 8px; margin: 12px 0; }
+  .likert-btn {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.35);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.2s ease;
+  }
+  .likert-btn:hover { background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.7); }
+  .likert-btn.active { background: rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.9); }
+  .likert-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 4px;
+  }
+
+  /* ── PERSISTENT BOTTOM BAR ── */
+  #bottom-bar {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    gap: 5px;
+    background: rgba(30, 32, 38, 0.8);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 24px;
+    white-space: nowrap;
+    pointer-events: auto;
+  }
+
+  .bar-group { display: flex; gap: 4px; }
+  .bar-separator { width: 1px; height: 22px; background: rgba(255,255,255,0.1); margin: 0 5px; flex-shrink: 0; }
+
+  .bar-btn {
+    border-radius: 16px;
+    padding: 7px 13px;
+    border: none;
+    background: rgba(80, 82, 88, 0.45);
+    color: rgba(255, 255, 255, 0.65);
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.15s ease;
+  }
+  .bar-btn:hover { background: rgba(90, 92, 100, 0.6); color: rgba(255, 255, 255, 0.9); }
+  .bar-btn.active { background: rgba(100, 160, 255, 0.2); color: rgba(160, 200, 255, 0.95); }
+
+  .bar-icon-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bar-icon-btn .material-symbols-outlined { font-size: 16px; line-height: 1; }
+  .bar-icon-btn.bar-off { background: rgba(60, 62, 66, 0.3); color: rgba(255, 255, 255, 0.18); }
+
+  .bar-toggle-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    padding: 0 4px;
+  }
+
+  /* Hidden state for floating panels */
+  .panels-hidden .panel { display: none !important; }
 </style>
 </head>
 <body>
 
-<!-- Laser pointer dot -->
+<!-- Laser pointer -->
+<svg id="laser-svg" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="laser-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <line id="laser-beam" x1="0" y1="0" x2="0" y2="0"
+    stroke="rgba(180,210,255,0.5)" stroke-width="3" filter="url(#laser-glow)"/>
+  <line id="laser-beam-core" x1="0" y1="0" x2="0" y2="0"
+    stroke="rgba(255,255,255,0.85)" stroke-width="1.2"/>
+</svg>
 <div id="laser-dot"></div>
 
 <!-- Center reticle -->
 <div id="reticle"></div>
 
-<!-- HUD overlay (menus live here) -->
+<!-- HUD overlay -->
 <div id="hud">
-  <!-- Procedure panel — top left -->
-  <div class="hud-panel" id="panel-procedure" style="top: 60px; left: 40px;">
-    <h3>Active Procedure</h3>
-    <div class="menu-item" style="color: rgba(100,200,130,0.9); font-weight: 500;">
-      <div class="icon" style="background: rgba(80,200,120,0.15); color: rgba(80,200,120,0.9);">✓</div>
-      Pre-flight Check
-    </div>
-    <div class="menu-item" style="color: rgba(100,180,255,0.9); font-weight: 500;">
-      <div class="icon">②</div>
-      Engine Start Sequence
-    </div>
-    <div class="menu-item">
-      <div class="icon" style="background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.3);">③</div>
-      Taxi & Takeoff
-    </div>
-    <div class="menu-item">
-      <div class="icon" style="background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.3);">④</div>
-      Climb & Cruise
+
+  <!-- T.O. Page Panel -->
+  <div class="panel to-panel" id="toPanel" style="top: 50%; left: 40px; height: 380px; transform: translateY(-50%);">
+    <div class="to-header">T.O. 1F-16CJ-2-00GS-00-1 &mdash; Page 2-3</div>
+    <div class="to-page">
+      <div class="to-doc-header">
+        <div class="to-number">T.O. 1F-16CJ-2-00GS-00-1</div>
+        <div class="to-doc-title">General System — Organizational Maintenance</div>
+        <div class="to-doc-subtitle">Preflight / Postflight Inspection Procedures</div>
+      </div>
+      <div class="to-section">Section II — Preflight Inspection</div>
+      <div class="to-para-num">2-1. GENERAL.</div>
+      <div class="to-text">This section contains procedures for performing preflight inspection of aircraft systems. All inspections shall be performed in the sequence listed.</div>
+      <div class="to-warning">
+        <strong>&#9888; WARNING</strong>
+        Ensure all ground safety pins are installed and hydraulic pressure is verified before performing flight control checks.
+      </div>
+      <div class="to-para-num">2-2. HYDRAULIC SYSTEM CHECK.</div>
+      <div class="to-sub">a. Verify System A pressure gauge indicates between 2,800 and 3,200 PSI.</div>
+      <div class="to-sub">b. Verify System B pressure gauge indicates between 2,800 and 3,200 PSI.</div>
+      <div class="to-sub">c. Check that no amber HYD advisory warnings are illuminated on caution panel.</div>
+      <div class="to-sub">d. If pressure is not within limits, do not continue. Refer to T.O. 1F-16CJ-2-70GS-00-1.</div>
+      <div class="to-para-num">2-3. FLIGHT CONTROL OPERATIONAL CHECK.</div>
+      <div class="to-sub">a. Move control stick full LEFT. Verify left aileron trailing edge rises.</div>
+      <div class="to-sub">b. Move control stick full RIGHT. Verify right aileron trailing edge rises.</div>
+      <div class="to-sub">c. Move control stick full FORWARD. Verify elevator deflects downward.</div>
+      <div class="to-sub">d. Depress left rudder pedal fully. Verify rudder deflects left.</div>
+      <div class="to-sub">e. Return all controls to neutral position.</div>
+      <div class="to-warning">
+        <strong>CAUTION</strong>
+        Do not exceed normal control force limits during operational check.
+      </div>
+      <div class="to-para-num">2-4. AVIONICS SYSTEMS VERIFICATION.</div>
+      <div class="to-sub">a. Verify FMS has completed initialization.</div>
+      <div class="to-sub">b. Verify NAV radio frequencies are set per mission briefing.</div>
+      <div class="to-sub">c. Verify transponder squawk code is set per ATC assignment.</div>
+      <div class="to-sub">d. Initiate autopilot BIT. Verify BIT completes with no faults.</div>
+      <div class="to-para-num">2-5. ENGINE INSTRUMENT CHECK.</div>
+      <div class="to-sub">a. Verify oil pressure: 40-65 PSI.</div>
+      <div class="to-sub">b. Verify EGT is within normal idle limits.</div>
+      <div class="to-sub">c. Verify fuel flow matches expected idle flow rate.</div>
     </div>
   </div>
 
-  <!-- Status panel — top right -->
-  <div class="hud-panel" id="panel-status" style="top: 60px; right: 40px; min-width: 200px;">
-    <h3>System Status</h3>
-    <div class="status-row">
-      <span>Engines</span>
-      <span class="value good">Online</span>
+  <!-- Main Procedure Panel -->
+  <div class="panel main-panel" id="mainPanel" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+
+    <!-- Screen 0: Landing -->
+    <div class="screen active" id="screen-0">
+      <div class="panel-header">
+        <span class="panel-title">Sample Procedure Name</span>
+        <span class="step-counter"><strong>1</strong> of 14</span>
+      </div>
+      <div class="content-card">
+        <h2 class="content-title">Pre-Flight Systems Check</h2>
+        <div class="content-body">
+          <p><strong>3 steps — complete in order.</strong></p>
+          <p>Use <strong>Need a Hint?</strong> if you get stuck. Use <strong>GO FORWARD</strong> to begin.</p>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="nav-btn" disabled><span class="arrow">&#8249;</span> Go Back</button>
+        <button class="nav-btn" onclick="goTo(1)">Go Forward <span class="arrow">&#8250;</span></button>
+      </div>
     </div>
-    <div class="status-row">
-      <span>Hydraulics</span>
-      <span class="value good">Normal</span>
+
+    <!-- Screen 1: Hydraulic Pressure -->
+    <div class="screen" id="screen-1">
+      <div class="panel-header">
+        <span class="panel-title">Procedure Instructions</span>
+        <span class="step-counter"><strong>2</strong> of 14</span>
+      </div>
+      <div class="content-card">
+        <h2 class="content-title">Verify Hydraulic Pressure</h2>
+        <div class="content-body">
+          <p><strong>Center instrument panel, left of thrust indicators.</strong></p>
+          <ul class="checklist">
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>System A: 2,800–3,200 PSI</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>System B: 2,800–3,200 PSI</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>No amber warnings illuminated</li>
+          </ul>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="nav-btn" onclick="goTo(0)"><span class="arrow">&#8249;</span> Go Back</button>
+        <button class="nav-btn" onclick="goTo(2)">Go Forward <span class="arrow">&#8250;</span></button>
+      </div>
     </div>
-    <div class="status-row">
-      <span>Fuel</span>
-      <span class="value warn">68%</span>
+
+    <!-- Screen 2: Flight Controls -->
+    <div class="screen" id="screen-2">
+      <div class="panel-header">
+        <span class="panel-title">Procedure Instructions</span>
+        <span class="step-counter"><strong>3</strong> of 14</span>
+      </div>
+      <div class="content-card">
+        <h2 class="content-title">Inspect Flight Controls</h2>
+        <div class="content-body">
+          <p><strong>Visually confirm each surface moves correctly.</strong></p>
+          <ul class="checklist">
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Yoke full left — left aileron rises</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Yoke full right — right aileron rises</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Yoke forward — elevator deflects down</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Left rudder pedal — rudder deflects left</li>
+          </ul>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="nav-btn" onclick="goTo(1)"><span class="arrow">&#8249;</span> Go Back</button>
+        <button class="nav-btn" onclick="goTo(3)">Go Forward <span class="arrow">&#8250;</span></button>
+      </div>
     </div>
-    <div class="divider"></div>
-    <div class="status-row">
-      <span>Altitude</span>
-      <span class="value">FL350</span>
+
+    <!-- Screen 3: Avionics -->
+    <div class="screen" id="screen-3">
+      <div class="panel-header">
+        <span class="panel-title">Procedure Instructions</span>
+        <span class="step-counter"><strong>4</strong> of 14</span>
+      </div>
+      <div class="content-card">
+        <h2 class="content-title">Confirm Avionics Status</h2>
+        <div class="content-body">
+          <p><strong>Avionics panel — all systems nominal.</strong></p>
+          <ul class="checklist">
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>FMS initialized</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>NAV frequencies set</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Transponder squawk code assigned</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Autopilot self-test passed</li>
+          </ul>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="nav-btn" onclick="goTo(2)"><span class="arrow">&#8249;</span> Go Back</button>
+        <button class="nav-btn" onclick="goTo(4)">Go Forward <span class="arrow">&#8250;</span></button>
+      </div>
     </div>
-    <div class="status-row">
-      <span>Speed</span>
-      <span class="value">M 0.82</span>
+
+    <!-- Screen 4: Complete -->
+    <div class="screen" id="screen-4">
+      <div class="panel-header">
+        <span class="panel-title">Procedure Complete</span>
+      </div>
+      <div class="content-card">
+        <h2 class="content-title">Pre-Flight Check Complete</h2>
+        <div class="content-body">
+          <p><strong>All steps verified.</strong> You may now close this menu and continue with the experience.</p>
+          <p>Use <strong>EXIT</strong> to return to the VR environment.</p>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="nav-btn" onclick="goTo(3)"><span class="arrow">&#8249;</span> Go Back</button>
+        <button class="nav-btn" onclick="goTo(5)">Go Forward <span class="arrow">&#8250;</span></button>
+      </div>
     </div>
+
+    <!-- Screen 5: Feedback -->
+    <div class="screen" id="screen-5">
+      <div class="panel-header">
+        <span class="panel-title">Feedback</span>
+      </div>
+      <div class="content-card">
+        <h2 class="content-title">How helpful were these instructions?</h2>
+        <div class="content-body" style="flex: none; overflow: visible;">
+          <p style="margin-bottom: 18px;">Rate your experience on a scale of 1 to 10.</p>
+          <div class="likert-scale" id="likertScale"></div>
+          <div class="likert-labels"><span>Not helpful</span><span>Very helpful</span></div>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="nav-btn" onclick="goTo(4)"><span class="arrow">&#8249;</span> Go Back</button>
+        <button class="nav-btn" onclick="dismissMenu()">Submit &amp; Exit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Panel (right side — streamlined) -->
+  <div class="panel admin-panel" id="adminPanel" style="top: 50%; right: 40px; transform: translateY(-50%);">
+    <div class="admin-buttons" style="display:flex; flex-direction:column; gap:6px;">
+      <button class="admin-btn hint-btn" onclick="alert('Hint: Check the instrument panel readings against reference values. (Demo)')">Need a Hint?</button>
+      <button class="admin-btn" id="toPageBtn" onclick="toggleTOFromBar()">T.O. Page Viewer: <span class="off-label">OFF</span></button>
+      <button class="admin-btn" onclick="alert('Headset re-centered. (Demo)')">Re-center</button>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- Persistent bottom bar -->
+<div id="bottom-bar">
+  <div class="bar-group">
+    <button class="bar-btn" id="barMenuBtn" onclick="toggleMenuPanels()">&#9776; Menu</button>
+  </div>
+  <div class="bar-separator"></div>
+  <div class="bar-group">
+    <button class="bar-btn" onclick="advPrev()">&#8249; Back</button>
+    <button class="bar-btn" onclick="advNext()">Next &#8250;</button>
+  </div>
+  <div class="bar-separator"></div>
+  <div class="bar-group">
+    <button class="bar-btn" id="barTOBtn" onclick="toggleTOFromBar()">T.O. Page</button>
+    <button class="bar-btn" id="barHintBtn" onclick="alert('Hint: Check the instrument panel readings against reference values. (Demo)')">Hint</button>
+  </div>
+  <div class="bar-separator"></div>
+  <div class="bar-group">
+    <button class="bar-btn bar-icon-btn" onclick="alert('Annotation placed. (Demo)')" title="Add Annotation"><span class="material-symbols-outlined">add_comment</span></button>
+    <button class="bar-btn bar-icon-btn" id="thumbstickBtn" onclick="toggleThumbstick(this)" title="Thumbstick Motion"><span class="material-symbols-outlined">sports_esports</span></button>
+    <button class="bar-btn bar-icon-btn" onclick="alert('Headset re-centered. (Demo)')" title="Re-center"><span class="material-symbols-outlined">gps_fixed</span></button>
+  </div>
+  <div class="bar-separator"></div>
+  <div class="bar-group">
+    <button class="bar-btn" onclick="dismissMenu()" style="color: rgba(255,100,100,0.7);">Exit</button>
   </div>
 </div>
 
 <!-- Controls hint -->
 <div id="controls-hint">
-  <span><kbd>←</kbd> <kbd>→</kbd> Look around</span>
-  <span><kbd>↑</kbd> <kbd>↓</kbd> Look up/down</span>
+  <span><kbd>&#8592;</kbd> <kbd>&#8594;</kbd> Look around</span>
+  <span><kbd>&#8593;</kbd> <kbd>&#8595;</kbd> Look up/down</span>
   <span>Drag panels to reposition</span>
 </div>
 
@@ -256,7 +713,7 @@
 import * as THREE from 'three';
 
 // ══════════════════════════════════════════
-// Scene setup
+// Three.js Scene — 360 Panorama
 // ══════════════════════════════════════════
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -267,90 +724,144 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 document.body.prepend(renderer.domElement);
 
-// ══════════════════════════════════════════
-// 360 panorama sphere
-// ══════════════════════════════════════════
+// Load equirectangular 360 image
 const textureLoader = new THREE.TextureLoader();
 const panoramaTexture = textureLoader.load('cockpit-360/panorama.jpg', () => {
-  renderer.render(scene, camera); // render once loaded
+  renderer.render(scene, camera);
 });
 panoramaTexture.colorSpace = THREE.SRGBColorSpace;
 
 const sphereGeometry = new THREE.SphereGeometry(100, 64, 32);
-sphereGeometry.scale(-1, 1, 1); // flip faces inward
-
-const sphereMaterial = new THREE.MeshBasicMaterial({
-  map: panoramaTexture
-});
-
+sphereGeometry.scale(-1, 1, 1);
+const sphereMaterial = new THREE.MeshBasicMaterial({ map: panoramaTexture });
 const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 scene.add(sphere);
 
 // ══════════════════════════════════════════
 // Camera rotation (arrow keys)
 // ══════════════════════════════════════════
-const rotationState = {
-  yaw: 0,    // horizontal rotation (radians)
-  pitch: 0,  // vertical rotation (radians)
-  speed: 0.025,
-  pitchLimit: Math.PI / 3, // 60 degrees up/down
+const rot = {
+  yaw: 0, pitch: 0,
+  speed: 0.02,
+  pitchLimit: Math.PI / 3,
   keys: {}
 };
 
 document.addEventListener('keydown', (e) => {
-  rotationState.keys[e.code] = true;
-  // Fade out hint after first key press
+  rot.keys[e.code] = true;
   const hint = document.getElementById('controls-hint');
   if (hint) hint.style.opacity = '0';
 });
-
-document.addEventListener('keyup', (e) => {
-  rotationState.keys[e.code] = false;
-});
+document.addEventListener('keyup', (e) => { rot.keys[e.code] = false; });
 
 function updateCamera() {
-  const k = rotationState.keys;
-  const s = rotationState.speed;
+  const s = rot.speed;
+  if (rot.keys['ArrowLeft'])  rot.yaw += s;
+  if (rot.keys['ArrowRight']) rot.yaw -= s;
+  if (rot.keys['ArrowUp'])    rot.pitch = Math.min(rot.pitch + s, rot.pitchLimit);
+  if (rot.keys['ArrowDown'])  rot.pitch = Math.max(rot.pitch - s, -rot.pitchLimit);
 
-  if (k['ArrowLeft'])  rotationState.yaw += s;
-  if (k['ArrowRight']) rotationState.yaw -= s;
-  if (k['ArrowUp'])    rotationState.pitch = Math.min(rotationState.pitch + s, rotationState.pitchLimit);
-  if (k['ArrowDown'])  rotationState.pitch = Math.max(rotationState.pitch - s, -rotationState.pitchLimit);
-
-  // Apply rotation using Euler (yaw then pitch)
-  const euler = new THREE.Euler(rotationState.pitch, rotationState.yaw, 0, 'YXZ');
+  const euler = new THREE.Euler(rot.pitch, rot.yaw, 0, 'YXZ');
   camera.quaternion.setFromEuler(euler);
 }
 
 // ══════════════════════════════════════════
-// Laser pointer cursor
+// Laser pointer — beam + dot
 // ══════════════════════════════════════════
 const laserDot = document.getElementById('laser-dot');
+const laserBeam = document.getElementById('laser-beam');
+const laserCore = document.getElementById('laser-beam-core');
+
+// Beam origin: bottom center of screen (the "controller")
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+
+function getBeamOrigin() {
+  return { x: window.innerWidth / 2, y: window.innerHeight + 40 };
+}
+
+function updateLaser() {
+  const origin = getBeamOrigin();
+  laserBeam.setAttribute('x1', origin.x);
+  laserBeam.setAttribute('y1', origin.y);
+  laserBeam.setAttribute('x2', mouseX);
+  laserBeam.setAttribute('y2', mouseY);
+  laserCore.setAttribute('x1', origin.x);
+  laserCore.setAttribute('y1', origin.y);
+  laserCore.setAttribute('x2', mouseX);
+  laserCore.setAttribute('y2', mouseY);
+  laserDot.style.left = mouseX + 'px';
+  laserDot.style.top = mouseY + 'px';
+}
 
 document.addEventListener('mousemove', (e) => {
-  laserDot.style.left = e.clientX + 'px';
-  laserDot.style.top = e.clientY + 'px';
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  updateLaser();
 });
 
 document.addEventListener('mousedown', () => laserDot.classList.add('clicking'));
 document.addEventListener('mouseup', () => laserDot.classList.remove('clicking'));
-
-// Hide laser when mouse leaves window
-document.addEventListener('mouseleave', () => laserDot.style.display = 'none');
-document.addEventListener('mouseenter', () => laserDot.style.display = 'block');
+document.addEventListener('mouseleave', () => {
+  laserDot.style.display = 'none';
+  document.getElementById('laser-svg').style.display = 'none';
+});
+document.addEventListener('mouseenter', () => {
+  laserDot.style.display = 'block';
+  document.getElementById('laser-svg').style.display = 'block';
+});
 
 // ══════════════════════════════════════════
-// Draggable HUD panels
+// 3D Perspective — panels orbit in space
+// ══════════════════════════════════════════
+function updatePanel3D(panel) {
+  // Skip panels being dragged (we handle transform there)
+  if (panel.classList.contains('dragging')) return;
+
+  const rect = panel.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+
+  const screenCX = window.innerWidth / 2;
+  const screenCY = window.innerHeight / 2;
+
+  // How far off-center (normalized -1 to 1)
+  const nx = (cx - screenCX) / (window.innerWidth / 2);
+  const ny = (cy - screenCY) / (window.innerHeight / 2);
+
+  // Rotate up to 25 degrees based on position
+  const rotY = -nx * 25;
+  const rotX = ny * 8;
+
+  // Slight scale reduction at edges
+  const dist = Math.sqrt(nx * nx + ny * ny);
+  const scale = 1 - dist * 0.04;
+
+  // Only apply the 3D rotation (preserve any existing translate transforms)
+  const existingTransform = panel.dataset.baseTransform || '';
+  panel.style.transform = `${existingTransform} perspective(1200px) rotateY(${rotY}deg) rotateX(${rotX}deg) scale(${scale})`;
+}
+
+function updateAllPanels3D() {
+  document.querySelectorAll('.panel').forEach(p => {
+    if (p.style.display !== 'none' && !p.closest('.panels-hidden')) {
+      updatePanel3D(p);
+    }
+  });
+}
+
+// ══════════════════════════════════════════
+// Draggable panels
 // ══════════════════════════════════════════
 function makeDraggable(panel) {
   let isDragging = false;
   let startX, startY, origLeft, origTop;
 
   panel.addEventListener('mousedown', (e) => {
-    // Don't drag if clicking a menu item
-    if (e.target.closest('.menu-item')) return;
+    if (e.target.closest('.menu-item, .nav-btn, .admin-btn, .checklist li, .likert-btn, button')) return;
 
     isDragging = true;
+    panel.classList.add('dragging');
     startX = e.clientX;
     startY = e.clientY;
 
@@ -358,9 +869,11 @@ function makeDraggable(panel) {
     origLeft = rect.left;
     origTop = rect.top;
 
-    // Reset any right/bottom positioning to use left/top
+    // Reset positioning to left/top
     panel.style.right = 'auto';
     panel.style.bottom = 'auto';
+    panel.style.transform = 'none';
+    panel.dataset.baseTransform = '';
     panel.style.left = origLeft + 'px';
     panel.style.top = origTop + 'px';
 
@@ -376,11 +889,121 @@ function makeDraggable(panel) {
   });
 
   document.addEventListener('mouseup', () => {
+    if (!isDragging) return;
     isDragging = false;
+    panel.classList.remove('dragging');
+    // Update 3D perspective after drop
+    updatePanel3D(panel);
   });
 }
 
-document.querySelectorAll('.hud-panel').forEach(makeDraggable);
+document.querySelectorAll('.panel').forEach(makeDraggable);
+
+// ══════════════════════════════════════════
+// Menu logic (from original prototype)
+// ══════════════════════════════════════════
+const TOTAL_SCREENS = 6;
+let currentScreen = 0;
+
+window.goTo = function(index) {
+  if (index < 0 || index >= TOTAL_SCREENS) return;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(`screen-${index}`).classList.add('active');
+  currentScreen = index;
+};
+
+window.toggleTO = function(el) {
+  const panel = document.getElementById('toPanel');
+  const span = el.querySelector('span');
+  const isOff = span.classList.contains('off-label');
+  if (isOff) {
+    panel.classList.add('visible');
+    panel.style.display = 'flex';
+    span.classList.remove('off-label');
+    span.classList.add('on-label');
+    span.textContent = 'ON';
+  } else {
+    panel.classList.remove('visible');
+    panel.style.display = 'none';
+    span.classList.remove('on-label');
+    span.classList.add('off-label');
+    span.textContent = 'OFF';
+  }
+  el.childNodes[0].textContent = 'T.O. Page Viewer: ';
+  setTimeout(updateAllPanels3D, 50);
+};
+
+let panelsVisible = true;
+
+window.toggleMenuPanels = function() {
+  const hud = document.getElementById('hud');
+  const btn = document.getElementById('barMenuBtn');
+  panelsVisible = !panelsVisible;
+  if (panelsVisible) {
+    hud.classList.remove('panels-hidden');
+    btn.classList.remove('active');
+  } else {
+    hud.classList.add('panels-hidden');
+    btn.classList.add('active');
+  }
+};
+
+window.dismissMenu = function() {
+  document.getElementById('hud').classList.add('panels-hidden');
+  panelsVisible = false;
+};
+
+window.showMenu = function() {
+  document.getElementById('hud').classList.remove('panels-hidden');
+  panelsVisible = true;
+};
+
+// Toggle T.O. from bottom bar
+let toVisible = false;
+window.toggleTOFromBar = function() {
+  const panel = document.getElementById('toPanel');
+  const barBtn = document.getElementById('barTOBtn');
+  const adminBtn = document.getElementById('toPageBtn');
+  const span = adminBtn ? adminBtn.querySelector('span') : null;
+  toVisible = !toVisible;
+  if (toVisible) {
+    panel.classList.add('visible');
+    panel.style.display = 'flex';
+    barBtn.classList.add('active');
+    if (span) { span.classList.remove('off-label'); span.classList.add('on-label'); span.textContent = 'ON'; }
+  } else {
+    panel.classList.remove('visible');
+    panel.style.display = 'none';
+    barBtn.classList.remove('active');
+    if (span) { span.classList.remove('on-label'); span.classList.add('off-label'); span.textContent = 'OFF'; }
+  }
+  if (adminBtn) adminBtn.childNodes[0].textContent = 'T.O. Page Viewer: ';
+  setTimeout(updateAllPanels3D, 50);
+};
+
+window.advPrev = function() { if (currentScreen > 0) goTo(currentScreen - 1); };
+window.advNext = function() { if (currentScreen < 3) goTo(currentScreen + 1); };
+window.toggleThumbstick = function(el) { el.classList.toggle('adv-off'); };
+
+// Build Likert scale
+(function() {
+  const container = document.getElementById('likertScale');
+  for (let i = 1; i <= 10; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'likert-btn';
+    btn.textContent = i;
+    btn.onclick = function() {
+      container.querySelectorAll('.likert-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    };
+    container.appendChild(btn);
+  }
+})();
+
+// Store base transforms for 3D calculation
+document.getElementById('mainPanel').dataset.baseTransform = 'translate(-50%, -50%)';
+document.getElementById('adminPanel').dataset.baseTransform = 'translateY(-50%)';
+document.getElementById('toPanel').dataset.baseTransform = 'translateY(-50%)';
 
 // ══════════════════════════════════════════
 // Render loop
@@ -388,17 +1011,19 @@ document.querySelectorAll('.hud-panel').forEach(makeDraggable);
 function animate() {
   requestAnimationFrame(animate);
   updateCamera();
+  updateAllPanels3D();
   renderer.render(scene, camera);
 }
 animate();
 
 // ══════════════════════════════════════════
-// Resize handler
+// Resize
 // ══════════════════════════════════════════
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  updateLaser();
 });
 </script>
 
