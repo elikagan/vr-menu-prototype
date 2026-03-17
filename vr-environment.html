@@ -452,6 +452,82 @@
 
   /* Hidden state for floating panels */
   .panels-hidden .panel { display: none !important; }
+
+  /* ── App Menu Modal ── */
+  #app-menu-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+  }
+  #app-menu-modal.open { display: flex; }
+
+  #app-menu-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  #app-menu-card {
+    position: relative;
+    z-index: 1;
+    background: rgba(28, 30, 36, 0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 28px 24px 20px;
+    min-width: 280px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+
+  #app-menu-card h2 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 16px;
+  }
+
+  .app-menu-btn {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 6px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(80, 82, 88, 0.4);
+    color: rgba(255,255,255,0.75);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.15s ease;
+  }
+  .app-menu-btn:hover { background: rgba(90,92,100,0.55); color: #fff; }
+  .app-menu-btn.danger { color: rgba(255,100,100,0.8); }
+  .app-menu-btn.danger:hover { background: rgba(180,50,50,0.3); color: rgba(255,120,120,1); }
+
+  #app-menu-close {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.3);
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.15s ease;
+    border-radius: 8px;
+  }
+  #app-menu-close:hover { color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05); }
 </style>
 </head>
 <body>
@@ -660,10 +736,26 @@
 
 </div>
 
+<!-- App Menu Modal -->
+<div id="app-menu-modal">
+  <div id="app-menu-backdrop" onclick="closeAppMenu()"></div>
+  <div id="app-menu-card">
+    <h2>Menu</h2>
+    <button class="app-menu-btn" onclick="closeAppMenu()">Resume Procedure</button>
+    <button class="app-menu-btn" onclick="closeAppMenu(); alert('Settings — TBD')">Settings</button>
+    <button class="app-menu-btn" onclick="closeAppMenu(); alert('Help — TBD')">Help</button>
+    <button class="app-menu-btn" onclick="closeAppMenu(); alert('Restart Procedure — TBD')">Restart Procedure</button>
+    <button class="app-menu-btn" onclick="closeAppMenu(); alert('Switch Procedure — TBD')">Switch Procedure</button>
+    <button class="app-menu-btn" onclick="closeAppMenu(); alert('About — TBD')">About</button>
+    <button class="app-menu-btn danger" onclick="closeAppMenu(); alert('Exit App — TBD')">Exit App</button>
+    <button id="app-menu-close" onclick="closeAppMenu()">Cancel</button>
+  </div>
+</div>
+
 <!-- Persistent bottom bar -->
 <div id="bottom-bar">
   <div class="bar-group">
-    <button class="bar-btn" id="barMenuBtn" onclick="toggleMenuPanels()">&#9776; Menu</button>
+    <button class="bar-btn" id="barMenuBtn" onclick="openAppMenu()">&#9776; Menu</button>
   </div>
   <div class="bar-separator"></div>
   <div class="bar-group">
@@ -672,6 +764,7 @@
   </div>
   <div class="bar-separator"></div>
   <div class="bar-group">
+    <button class="bar-btn" id="barStepsBtn" onclick="toggleMainPanel()">Steps</button>
     <button class="bar-btn" id="barTOBtn" onclick="toggleTOFromBar()">T.O. Page</button>
     <button class="bar-btn" id="barHintBtn" onclick="alert('Hint: Check the instrument panel readings against reference values. (Demo)')">Hint</button>
   </div>
@@ -683,7 +776,7 @@
   </div>
   <div class="bar-separator"></div>
   <div class="bar-group">
-    <button class="bar-btn" onclick="dismissMenu()" style="color: rgba(255,100,100,0.7);">Exit</button>
+    <button class="bar-btn" id="barHideBtn" onclick="hideAllPanels()">Hide</button>
   </div>
 </div>
 
@@ -926,29 +1019,39 @@ window.toggleTO = function(el) {
   setTimeout(updateAllPanels3D, 50);
 };
 
-let panelsVisible = true;
-
-window.toggleMenuPanels = function() {
-  const hud = document.getElementById('hud');
-  const btn = document.getElementById('barMenuBtn');
-  panelsVisible = !panelsVisible;
-  if (panelsVisible) {
-    hud.classList.remove('panels-hidden');
-    btn.classList.remove('active');
-  } else {
-    hud.classList.add('panels-hidden');
-    btn.classList.add('active');
-  }
+// App menu modal
+window.openAppMenu = function() {
+  document.getElementById('app-menu-modal').classList.add('open');
+};
+window.closeAppMenu = function() {
+  document.getElementById('app-menu-modal').classList.remove('open');
 };
 
-window.dismissMenu = function() {
+// Hide all floating panels (bottom bar stays)
+window.hideAllPanels = function() {
   document.getElementById('hud').classList.add('panels-hidden');
-  panelsVisible = false;
+  document.getElementById('barHideBtn').classList.add('active');
+  document.getElementById('barStepsBtn').classList.remove('active');
 };
 
+// Show all panels
 window.showMenu = function() {
   document.getElementById('hud').classList.remove('panels-hidden');
-  panelsVisible = true;
+  document.getElementById('barHideBtn').classList.remove('active');
+};
+
+// Toggle main procedure panel
+let stepsVisible = true;
+window.toggleMainPanel = function() {
+  const panel = document.getElementById('mainPanel');
+  const btn = document.getElementById('barStepsBtn');
+  stepsVisible = !stepsVisible;
+  panel.style.display = stepsVisible ? 'flex' : 'none';
+  btn.classList.toggle('active', stepsVisible);
+  // Show hud if hidden
+  document.getElementById('hud').classList.remove('panels-hidden');
+  document.getElementById('barHideBtn').classList.remove('active');
+  setTimeout(updateAllPanels3D, 50);
 };
 
 // Toggle T.O. from bottom bar
