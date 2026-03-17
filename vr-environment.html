@@ -525,7 +525,7 @@
   </div>
 
   <!-- Main Procedure Panel -->
-  <div class="panel main-panel" id="mainPanel" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+  <div class="panel main-panel" id="mainPanel" style="top: 50%; left: 60px; transform: translateY(-50%);">
 
     <!-- Screen 0: Landing -->
     <div class="screen active" id="screen-0">
@@ -831,7 +831,7 @@ function updatePanel3D(panel) {
 
   // Rotate based on position — panels orbit the sphere
   const rotY = -nx * 28;
-  const rotX = -ny * 22; // negative: bottom panels tilt top toward viewer
+  const rotX = ny * 22; // bottom panels tilt top away (like floor), top panels tilt top toward viewer
 
   // Slight scale reduction at edges
   const dist = Math.sqrt(nx * nx + ny * ny);
@@ -1001,7 +1001,7 @@ window.toggleThumbstick = function(el) { el.classList.toggle('adv-off'); };
 })();
 
 // Store base transforms for 3D calculation
-document.getElementById('mainPanel').dataset.baseTransform = 'translate(-50%, -50%)';
+document.getElementById('mainPanel').dataset.baseTransform = 'translateY(-50%)';
 document.getElementById('adminPanel').dataset.baseTransform = 'translateY(-50%)';
 document.getElementById('toPanel').dataset.baseTransform = 'translateY(-50%)';
 
