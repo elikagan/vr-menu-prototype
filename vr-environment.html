@@ -901,9 +901,6 @@ document.addEventListener('mouseenter', () => {
 // 3D Perspective — panels orbit in space
 // ══════════════════════════════════════════
 function updatePanel3D(panel) {
-  // Skip panels being dragged (we handle transform there)
-  if (panel.classList.contains('dragging')) return;
-
   const rect = panel.getBoundingClientRect();
   const cx = rect.left + rect.width / 2;
   const cy = rect.top + rect.height / 2;
@@ -955,10 +952,9 @@ function makeDraggable(panel) {
     origLeft = rect.left;
     origTop = rect.top;
 
-    // Reset positioning to left/top
+    // Reset positioning to left/top (keep 3D transform — render loop handles it)
     panel.style.right = 'auto';
     panel.style.bottom = 'auto';
-    panel.style.transform = 'none';
     panel.dataset.baseTransform = '';
     panel.style.left = origLeft + 'px';
     panel.style.top = origTop + 'px';
