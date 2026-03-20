@@ -441,6 +441,27 @@
   .bar-icon-btn .material-symbols-outlined { font-size: 16px; line-height: 1; }
   .bar-icon-btn.bar-off { background: rgba(60, 62, 66, 0.3); color: rgba(255, 255, 255, 0.18); }
 
+  #bar-status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 6px;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  #bar-pct {
+    color: rgba(255,255,255,0.8);
+    font-weight: 600;
+    min-width: 30px;
+    text-align: right;
+  }
+  .bar-status-sep {
+    color: rgba(255,255,255,0.2);
+  }
+
   .bar-toggle-label {
     font-size: 9px;
     font-weight: 500;
@@ -764,6 +785,14 @@
   </div>
   <div class="bar-separator"></div>
   <div class="bar-group">
+    <div id="bar-status">
+      <span id="bar-pct">0%</span>
+      <span class="bar-status-sep">·</span>
+      <span id="bar-elapsed">0:00</span>
+    </div>
+  </div>
+  <div class="bar-separator"></div>
+  <div class="bar-group">
     <button class="bar-btn" id="barStepsBtn" onclick="toggleMainPanel()">Steps</button>
     <button class="bar-btn" id="barTOBtn" onclick="toggleTOFromBar()">T.O. Page</button>
     <button class="bar-btn" id="barHintBtn" onclick="alert('Hint: Check the instrument panel readings against reference values. (Demo)')">Hint</button>
@@ -987,11 +1016,25 @@ document.querySelectorAll('.panel').forEach(makeDraggable);
 const TOTAL_SCREENS = 6;
 let currentScreen = 0;
 
+function updateBarStatus() {
+  const pct = Math.round((currentScreen / (TOTAL_SCREENS - 1)) * 100);
+  document.getElementById('bar-pct').textContent = pct + '%';
+}
+
+const sessionStart = Date.now();
+setInterval(() => {
+  const s = Math.floor((Date.now() - sessionStart) / 1000);
+  const m = Math.floor(s / 60);
+  const ss = String(s % 60).padStart(2, '0');
+  document.getElementById('bar-elapsed').textContent = m + ':' + ss;
+}, 1000);
+
 window.goTo = function(index) {
   if (index < 0 || index >= TOTAL_SCREENS) return;
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(`screen-${index}`).classList.add('active');
   currentScreen = index;
+  updateBarStatus();
 };
 
 window.toggleTO = function(el) {
