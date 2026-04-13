@@ -168,76 +168,75 @@
     flex-direction: column;
     flex: 1;
     min-height: 0;
-    padding: 18px 18px 16px;
+    padding: 22px 20px 14px;
     position: relative;
     overflow: hidden;
     animation: fadeIn 0.25s ease;
   }
   .screen.active { display: flex; }
 
-  /* Ghost step number — large faded bg numeral */
-  .step-ghost {
-    position: absolute;
-    top: 10px; right: 14px;
-    font-size: 52px;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.04);
-    line-height: 1;
-    letter-spacing: -2px;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  /* Title — FIRST, dominant */
-  .proc-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.92);
-    line-height: 1.3;
-    flex-shrink: 0;
-    margin-bottom: 9px;
-  }
-
-  /* Meta row — subordinate, lives BELOW title */
+  /* Meta row — label above title */
   .proc-meta {
     display: flex;
-    align-items: center;
-    gap: 7px;
-    margin-bottom: 10px;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 5px;
     flex-shrink: 0;
   }
-  .proc-ref {
-    font-size: 9px;
+
+  /* Title — dominant */
+  .proc-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.25;
+    flex-shrink: 0;
+    margin-bottom: 18px;
+  }
+  .proc-meta-left {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  /* T.O. number */
+  .proc-to {
+    font-size: 10px;
     font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.2px;
+  }
+  /* Para / TO ref */
+  .proc-ref {
+    font-size: 10px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    color: rgba(255, 255, 255, 0.35);
     letter-spacing: 0.2px;
   }
   .proc-meta-dot {
     width: 2px; height: 2px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.18);
     flex-shrink: 0;
   }
   .proc-step {
-    font-size: 9px;
-    color: rgba(255, 255, 255, 0.25);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.35);
     font-weight: 500;
   }
-  .proc-step strong { color: rgba(255, 255, 255, 0.55); font-weight: 600; }
+  .proc-step strong { color: rgba(255, 255, 255, 0.65); font-weight: 600; }
 
-  /* Progress bar */
-  .proc-progress {
+  /* Panel-level progress strip — white, not blue (blue is reserved for tab indicator) */
+  .panel-progress {
     height: 2px;
-    background: rgba(255, 255, 255, 0.07);
-    border-radius: 1px;
+    background: rgba(255, 255, 255, 0.05);
     flex-shrink: 0;
     overflow: hidden;
   }
-  .proc-progress-fill {
+  .panel-progress-fill {
     height: 100%;
-    background: rgba(120, 175, 255, 0.5);
-    border-radius: 1px;
-    transition: width 0.3s ease;
+    background: rgba(255, 255, 255, 0.28);
+    transition: width 0.35s ease;
   }
 
   /* Body */
@@ -245,31 +244,28 @@
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    font-size: 11px;
-    line-height: 1.65;
-    color: rgba(255, 255, 255, 0.55);
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
-    margin-top: 15px;
-    padding-top: 14px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.6);
     padding-right: 4px;
   }
   .proc-body::-webkit-scrollbar { width: 3px; }
   .proc-body::-webkit-scrollbar-track { background: transparent; }
   .proc-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-  .proc-body p { margin-bottom: 10px; }
+  .proc-body p { margin-bottom: 12px; }
   .proc-body p:last-child { margin-bottom: 0; }
-  .proc-body strong { color: rgba(255, 255, 255, 0.75); font-weight: 500; }
+  .proc-body strong { color: rgba(255, 255, 255, 0.82); font-weight: 500; }
 
-  /* Checklist — generous rows */
+  /* Checklist */
   .checklist { list-style: none; }
   .checklist li {
-    padding: 11px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    font-size: 11.5px;
-    color: rgba(255, 255, 255, 0.65);
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.72);
     display: flex;
     align-items: center;
-    gap: 11px;
+    gap: 12px;
     cursor: pointer;
     transition: color 0.12s ease;
   }
@@ -293,23 +289,22 @@
     transform: scale(1.1);
   }
 
-  /* Nav */
+  /* Nav — Back is ghost/recessive, Next is the clear primary action */
   .nav {
     display: flex;
     gap: 8px;
-    padding-top: 14px;
-    margin-top: 14px;
+    padding-top: 12px;
+    margin-top: 12px;
     border-top: 1px solid rgba(255, 255, 255, 0.07);
     flex-shrink: 0;
   }
   .nav-btn {
-    flex: 1;
-    padding: 10px;
-    border-radius: 18px;
+    padding: 11px 14px;
+    border-radius: 20px;
     font-family: inherit;
-    font-size: 10.5px;
+    font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.3px;
     text-transform: uppercase;
     cursor: pointer;
     transition: 0.15s ease;
@@ -319,17 +314,20 @@
   }
   .nav-back {
     background: transparent;
-    color: rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    color: rgba(255, 255, 255, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    flex: 0 0 auto;
+    padding: 11px 16px;
   }
-  .nav-back:hover:not(:disabled) { color: rgba(255, 255, 255, 0.65); border-color: rgba(255, 255, 255, 0.18); }
-  .nav-back:disabled { opacity: 0.18; pointer-events: none; }
+  .nav-back:hover:not(:disabled) { color: rgba(255, 255, 255, 0.55); border-color: rgba(255, 255, 255, 0.16); }
+  .nav-back:disabled { opacity: 0.15; pointer-events: none; }
   .nav-next {
-    background: rgba(255, 255, 255, 0.09);
-    color: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.13);
+    flex: 1;
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.18);
   }
-  .nav-next:hover { background: rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.95); }
+  .nav-next:hover { background: rgba(255, 255, 255, 0.18); color: white; }
 
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(4px); }
@@ -438,8 +436,8 @@
 
   /* ── Inline WARNING / CAUTION / NOTE blocks ── */
   .proc-block {
-    margin: 10px 0 2px;
-    padding: 5px 0 5px 10px;
+    margin: 12px 0;
+    padding: 6px 0 6px 10px;
     font-size: 10.5px;
     line-height: 1.55;
     border-left: 2px solid;
@@ -716,16 +714,17 @@
       <button class="view-tab" onclick="setView(this)">Reference</button>
     </div>
 
+    <!-- Panel-level progress strip -->
+    <div class="panel-progress"><div class="panel-progress-fill" id="panelProgressFill" style="width:0%"></div></div>
+
     <!-- Screen 0: Intro + WARNING -->
     <div class="screen active" id="screen-0">
-      <div class="step-ghost">01</div>
-      <h2 class="proc-title">3-8. Hydraulic System Preflight</h2>
       <div class="proc-meta">
         <span class="proc-ref">T.O. 1F-106A-1CL-1</span>
         <span class="proc-meta-dot"></span>
         <span class="proc-step"><strong>1</strong> of 6</span>
       </div>
-      <div class="proc-progress"><div class="proc-progress-fill" style="width:0%"></div></div>
+      <h2 class="proc-title">3-8. Hydraulic System Preflight</h2>
       <div class="proc-body">
         <p>Perform the following steps prior to engine start. <strong>6 steps — complete in order.</strong></p>
         <div class="proc-block proc-warning"><strong>&#9888; Warning</strong>Do not perform hydraulic checks with engine running unless ground safety pins are installed in all flight control surfaces. Failure to comply may result in serious injury or death.</div>
@@ -738,14 +737,12 @@
 
     <!-- Screen 1: Step a — Reservoir -->
     <div class="screen" id="screen-1">
-      <div class="step-ghost">02</div>
-      <h2 class="proc-title">Inspect Reservoir Sight Glass</h2>
       <div class="proc-meta">
         <span class="proc-ref">T.O. 1F-106A-1CL-1 &middot; 3-8a</span>
         <span class="proc-meta-dot"></span>
         <span class="proc-step"><strong>2</strong> of 6</span>
       </div>
-      <div class="proc-progress"><div class="proc-progress-fill" style="width:20%"></div></div>
+      <h2 class="proc-title">Inspect Reservoir Sight Glass</h2>
       <div class="proc-body">
         <p>Hydraulic reservoir — left aft equipment bay.</p>
         <ul class="checklist">
@@ -761,14 +758,12 @@
 
     <!-- Screen 2: Step b — Pressure gauges + CAUTION -->
     <div class="screen" id="screen-2">
-      <div class="step-ghost">03</div>
-      <h2 class="proc-title">Check System A &amp; B Pressure</h2>
       <div class="proc-meta">
         <span class="proc-ref">T.O. 1F-106A-1CL-1 &middot; 3-8b</span>
         <span class="proc-meta-dot"></span>
         <span class="proc-step"><strong>3</strong> of 6</span>
       </div>
-      <div class="proc-progress"><div class="proc-progress-fill" style="width:40%"></div></div>
+      <h2 class="proc-title">Check System A &amp; B Pressure</h2>
       <div class="proc-body">
         <p>Left main instrument panel.</p>
         <ul class="checklist">
@@ -785,14 +780,12 @@
 
     <!-- Screen 3: Steps c + d -->
     <div class="screen" id="screen-3">
-      <div class="step-ghost">04</div>
-      <h2 class="proc-title">Inspect Lines &amp; Caution Panel</h2>
       <div class="proc-meta">
         <span class="proc-ref">T.O. 1F-106A-1CL-1 &middot; 3-8c–d</span>
         <span class="proc-meta-dot"></span>
         <span class="proc-step"><strong>4</strong> of 6</span>
       </div>
-      <div class="proc-progress"><div class="proc-progress-fill" style="width:60%"></div></div>
+      <h2 class="proc-title">Inspect Lines &amp; Caution Panel</h2>
       <div class="proc-body">
         <ul class="checklist">
           <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>All visible hyd. lines — no wet spots, staining, or drips</li>
@@ -808,14 +801,12 @@
 
     <!-- Screen 4: Steps e + f + NOTE -->
     <div class="screen" id="screen-4">
-      <div class="step-ghost">05</div>
-      <h2 class="proc-title">Cycle Speed Brake &amp; Stow</h2>
       <div class="proc-meta">
         <span class="proc-ref">T.O. 1F-106A-1CL-1 &middot; 3-8e–f</span>
         <span class="proc-meta-dot"></span>
         <span class="proc-step"><strong>5</strong> of 6</span>
       </div>
-      <div class="proc-progress"><div class="proc-progress-fill" style="width:80%"></div></div>
+      <h2 class="proc-title">Cycle Speed Brake &amp; Stow</h2>
       <div class="proc-body">
         <ul class="checklist">
           <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Speed brake handle — OPEN, then CLOSED</li>
@@ -832,14 +823,12 @@
 
     <!-- Screen 5: Complete + Feedback -->
     <div class="screen" id="screen-5">
-      <div class="step-ghost">&#10003;</div>
-      <h2 class="proc-title">Hydraulic Preflight Complete</h2>
       <div class="proc-meta">
         <span class="proc-ref">T.O. 1F-106A-1CL-1 &middot; 3-8</span>
         <span class="proc-meta-dot"></span>
         <span class="proc-step"><strong>6</strong> of 6</span>
       </div>
-      <div class="proc-progress"><div class="proc-progress-fill" style="width:100%"></div></div>
+      <h2 class="proc-title">Hydraulic Preflight Complete</h2>
       <div class="proc-body">
         <p><strong>All steps verified.</strong> How helpful were these instructions?</p>
         <div style="margin-top:14px">
@@ -1135,6 +1124,8 @@ window.goTo = function(index) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(`screen-${index}`).classList.add('active');
   currentScreen = index;
+  const pct = Math.round((index / (TOTAL_SCREENS - 1)) * 100);
+  document.getElementById('panelProgressFill').style.width = pct + '%';
   updateBarStatus();
 };
 
