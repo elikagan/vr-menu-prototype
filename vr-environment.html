@@ -125,11 +125,11 @@
 
   /* ── MAIN PANEL (procedure instructions) ── */
   .main-panel {
-    width: 280px;
+    width: 320px;
     height: 440px;
     display: flex;
     flex-direction: column;
-    padding: 18px 22px 18px;
+    padding: 16px 14px 14px;
     overflow: hidden;
   }
 
@@ -137,29 +137,32 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
   }
   .panel-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.9);
   }
   .step-counter {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+    margin-left: 8px;
   }
   .step-counter strong {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.85);
     font-weight: 600;
   }
 
   .content-card {
     background: rgba(60, 62, 68, 0.5);
     border-radius: 10px;
-    padding: 16px 8px 14px 18px;
+    padding: 13px 12px 12px;
     flex: 1;
     min-height: 0;
     display: flex;
@@ -167,48 +170,51 @@
     overflow: hidden;
   }
   .content-title {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     color: rgba(255, 255, 255, 0.9);
+    flex-shrink: 0;
   }
   .content-body {
-    font-size: 12px;
-    line-height: 1.7;
+    font-size: 11.5px;
+    line-height: 1.65;
     color: rgba(255, 255, 255, 0.6);
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    padding-right: 14px;
+    padding-right: 6px;
   }
-  .content-body p + p { margin-top: 10px; }
-  .content-body strong { color: rgba(255, 255, 255, 0.75); font-weight: 500; }
+  .content-body p { margin-bottom: 8px; }
+  .content-body p:last-child { margin-bottom: 0; }
+  .content-body strong { color: rgba(255, 255, 255, 0.78); font-weight: 500; }
 
-  .content-body::-webkit-scrollbar { width: 6px; }
-  .content-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); border-radius: 3px; }
-  .content-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+  .content-body::-webkit-scrollbar { width: 4px; }
+  .content-body::-webkit-scrollbar-track { background: transparent; }
+  .content-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
 
   /* Checklist */
-  .checklist { list-style: none; margin-top: 6px; }
+  .checklist { list-style: none; margin-top: 2px; }
   .checklist li {
-    padding: 6px 10px;
+    padding: 7px 10px;
     margin-bottom: 4px;
     background: rgba(255, 255, 255, 0.04);
-    border-radius: 8px;
+    border-radius: 7px;
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.6);
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: 0.15s ease;
   }
+  .checklist li:last-child { margin-bottom: 0; }
   .checklist li:hover { background: rgba(255, 255, 255, 0.07); }
-  .checklist li.checked { color: rgba(255, 255, 255, 0.3); text-decoration: line-through; }
+  .checklist li.checked { color: rgba(255, 255, 255, 0.28); text-decoration: line-through; }
   .checklist li .check-icon {
-    width: 16px; height: 16px;
+    width: 17px; height: 17px;
     border-radius: 50%;
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border: 1.5px solid rgba(255, 255, 255, 0.22);
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
     font-size: 9px;
@@ -225,8 +231,8 @@
   /* Nav buttons */
   .nav {
     display: flex;
-    gap: 8px;
-    margin-top: 12px;
+    gap: 6px;
+    margin-top: 10px;
     flex-shrink: 0;
   }
   .nav-btn {
@@ -234,22 +240,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 9px 12px;
+    gap: 5px;
+    padding: 9px 10px;
     border: none;
-    border-radius: 24px;
+    border-radius: 22px;
     background: rgba(80, 82, 88, 0.5);
     color: rgba(255, 255, 255, 0.7);
     font-family: inherit;
     font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.6px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: 0.15s ease;
   }
   .nav-btn:hover { background: rgba(90, 92, 100, 0.6); color: rgba(255, 255, 255, 0.9); }
-  .nav-btn:disabled { opacity: 0.3; pointer-events: none; }
+  .nav-btn:disabled { opacity: 0.25; pointer-events: none; }
   .nav-btn .arrow { font-size: 14px; }
 
   /* Screen switching */
