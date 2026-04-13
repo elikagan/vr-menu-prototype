@@ -125,101 +125,106 @@
 
   /* ── MAIN PANEL (procedure instructions) ── */
   .main-panel {
-    width: 320px;
-    height: 440px;
+    width: 300px;
+    height: 420px;
     display: flex;
     flex-direction: column;
-    padding: 16px 14px 14px;
+    padding: 16px 16px 14px;
     overflow: hidden;
   }
 
-  .panel-header {
+  /* Meta row */
+  .proc-meta {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 10px;
+    align-items: center;
+    margin-bottom: 6px;
     flex-shrink: 0;
   }
-  .panel-title {
+  .proc-ref {
+    font-size: 9.5px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    color: rgba(255, 255, 255, 0.28);
+    letter-spacing: 0.2px;
+  }
+  .proc-step {
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.28);
+    font-weight: 500;
+  }
+  .proc-step strong { color: rgba(255, 255, 255, 0.65); font-weight: 600; }
+
+  /* Progress bar */
+  .proc-progress {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 1px;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .proc-progress-fill {
+    height: 100%;
+    background: rgba(120, 175, 255, 0.5);
+    border-radius: 1px;
+    transition: width 0.3s ease;
+  }
+
+  /* Step title */
+  .proc-title {
     font-size: 13px;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.9);
-  }
-  .step-counter {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.4);
-    white-space: nowrap;
-    margin-left: 8px;
-  }
-  .step-counter strong {
-    color: rgba(255, 255, 255, 0.85);
-    font-weight: 600;
+    line-height: 1.35;
+    flex-shrink: 0;
+    margin-bottom: 0;
   }
 
-  .content-card {
-    background: rgba(60, 62, 68, 0.5);
-    border-radius: 10px;
-    padding: 13px 12px 12px;
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  .content-title {
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: rgba(255, 255, 255, 0.9);
-    flex-shrink: 0;
-  }
-  .content-body {
-    font-size: 11.5px;
-    line-height: 1.65;
-    color: rgba(255, 255, 255, 0.6);
+  /* Scrollable body — border-top creates zone separation */
+  .proc-body {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    padding-right: 6px;
-  }
-  .content-body p { margin-bottom: 8px; }
-  .content-body p:last-child { margin-bottom: 0; }
-  .content-body strong { color: rgba(255, 255, 255, 0.78); font-weight: 500; }
-
-  .content-body::-webkit-scrollbar { width: 4px; }
-  .content-body::-webkit-scrollbar-track { background: transparent; }
-  .content-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
-
-  /* Checklist */
-  .checklist { list-style: none; margin-top: 2px; }
-  .checklist li {
-    padding: 7px 10px;
-    margin-bottom: 4px;
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 7px;
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.55);
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    margin-top: 12px;
+    padding-top: 12px;
+    padding-right: 4px;
+  }
+  .proc-body::-webkit-scrollbar { width: 3px; }
+  .proc-body::-webkit-scrollbar-track { background: transparent; }
+  .proc-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+  .proc-body p { margin-bottom: 9px; }
+  .proc-body p:last-child { margin-bottom: 0; }
+  .proc-body strong { color: rgba(255, 255, 255, 0.75); font-weight: 500; }
+
+  /* Checklist — clean rows, no background */
+  .checklist { list-style: none; }
+  .checklist li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.62);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     cursor: pointer;
-    transition: 0.15s ease;
+    transition: color 0.12s ease;
   }
-  .checklist li:last-child { margin-bottom: 0; }
-  .checklist li:hover { background: rgba(255, 255, 255, 0.07); }
-  .checklist li.checked { color: rgba(255, 255, 255, 0.28); text-decoration: line-through; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li:hover { color: rgba(255, 255, 255, 0.88); }
+  .checklist li.checked { color: rgba(255, 255, 255, 0.2); text-decoration: line-through; }
   .checklist li .check-icon {
     width: 17px; height: 17px;
     border-radius: 50%;
-    border: 1.5px solid rgba(255, 255, 255, 0.22);
+    border: 1.5px solid rgba(255, 255, 255, 0.18);
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
     font-size: 9px;
-    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
     color: transparent;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
   }
   .checklist li.checked .check-icon {
     background: rgba(80, 200, 120, 0.85);
@@ -228,35 +233,43 @@
     transform: scale(1.1);
   }
 
-  /* Nav buttons */
+  /* Nav — border-top creates zone separation */
   .nav {
     display: flex;
-    gap: 6px;
-    margin-top: 10px;
+    gap: 8px;
+    padding-top: 12px;
+    margin-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
     flex-shrink: 0;
   }
   .nav-btn {
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
     padding: 9px 10px;
-    border: none;
-    border-radius: 22px;
-    background: rgba(80, 82, 88, 0.5);
-    color: rgba(255, 255, 255, 0.7);
+    border-radius: 18px;
     font-family: inherit;
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 500;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
     cursor: pointer;
     transition: 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .nav-btn:hover { background: rgba(90, 92, 100, 0.6); color: rgba(255, 255, 255, 0.9); }
-  .nav-btn:disabled { opacity: 0.25; pointer-events: none; }
-  .nav-btn .arrow { font-size: 14px; }
+  .nav-back {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+  }
+  .nav-back:hover:not(:disabled) { color: rgba(255, 255, 255, 0.65); border-color: rgba(255, 255, 255, 0.18); }
+  .nav-back:disabled { opacity: 0.18; pointer-events: none; }
+  .nav-next {
+    background: rgba(255, 255, 255, 0.09);
+    color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+  }
+  .nav-next:hover { background: rgba(255, 255, 255, 0.15); color: rgba(255, 255, 255, 0.95); }
 
   /* Screen switching */
   .screen {
@@ -375,35 +388,24 @@
 
   /* ── Inline WARNING / CAUTION / NOTE blocks ── */
   .proc-block {
-    margin: 10px 0;
-    padding: 7px 10px 8px;
-    border-radius: 5px;
+    margin: 10px 0 2px;
+    padding: 5px 0 5px 10px;
     font-size: 10.5px;
     line-height: 1.55;
+    border-left: 2px solid;
   }
   .proc-block strong {
     display: block;
-    font-size: 9px;
+    font-size: 8.5px;
     letter-spacing: 1.8px;
     text-transform: uppercase;
     margin-bottom: 3px;
     font-weight: 700;
+    opacity: 0.7;
   }
-  .proc-warning {
-    background: rgba(200, 50, 50, 0.13);
-    border-left: 2px solid rgba(220, 80, 80, 0.55);
-    color: rgba(255, 165, 145, 0.92);
-  }
-  .proc-caution {
-    background: rgba(190, 140, 0, 0.13);
-    border-left: 2px solid rgba(210, 165, 0, 0.55);
-    color: rgba(255, 215, 120, 0.92);
-  }
-  .proc-note {
-    background: rgba(70, 110, 200, 0.13);
-    border-left: 2px solid rgba(100, 145, 220, 0.45);
-    color: rgba(160, 195, 255, 0.88);
-  }
+  .proc-warning { border-color: rgba(220, 80, 70, 0.55); color: rgba(255, 155, 135, 0.85); }
+  .proc-caution { border-color: rgba(210, 165, 0, 0.55); color: rgba(255, 210, 100, 0.85); }
+  .proc-note    { border-color: rgba(100, 145, 220, 0.45); color: rgba(155, 190, 255, 0.8); }
 
   /* ── Likert scale (feedback screen) ── */
   .likert-scale { display: flex; gap: 8px; margin: 12px 0; }
@@ -659,130 +661,126 @@
 
     <!-- Screen 0: Intro + WARNING -->
     <div class="screen active" id="screen-0">
-      <div class="panel-header">
-        <span class="panel-title">T.O. 1F-106A-1CL-1</span>
-        <span class="step-counter"><strong>1</strong> of 6</span>
+      <div class="proc-meta">
+        <span class="proc-ref">T.O. 1F-106A-1CL-1</span>
+        <span class="proc-step"><strong>1</strong> of 6</span>
       </div>
-      <div class="content-card">
-        <h2 class="content-title">3-8. Hydraulic System Preflight</h2>
-        <div class="content-body">
-          <p>Perform the following steps prior to engine start. <strong>6 steps — complete in order.</strong></p>
-          <div class="proc-block proc-warning"><strong>&#9888; Warning</strong>Do not perform hydraulic checks with engine running unless ground safety pins are installed in all flight control surfaces. Failure to comply may result in serious injury or death.</div>
-        </div>
+      <div class="proc-progress"><div class="proc-progress-fill" style="width:0%"></div></div>
+      <h2 class="proc-title">3-8. Hydraulic System Preflight</h2>
+      <div class="proc-body">
+        <p>Perform the following steps prior to engine start. <strong>6 steps — complete in order.</strong></p>
+        <div class="proc-block proc-warning"><strong>&#9888; Warning</strong>Do not perform hydraulic checks with engine running unless ground safety pins are installed in all flight control surfaces. Failure to comply may result in serious injury or death.</div>
       </div>
       <div class="nav">
-        <button class="nav-btn" disabled>&#8249; Back</button>
-        <button class="nav-btn" onclick="goTo(1)">Next &#8250;</button>
+        <button class="nav-btn nav-back" disabled>&#8249; Back</button>
+        <button class="nav-btn nav-next" onclick="goTo(1)">Next &#8250;</button>
       </div>
     </div>
 
     <!-- Screen 1: Step a — Reservoir -->
     <div class="screen" id="screen-1">
-      <div class="panel-header">
-        <span class="panel-title">3-8a. Reservoir Check</span>
-        <span class="step-counter"><strong>2</strong> of 6</span>
+      <div class="proc-meta">
+        <span class="proc-ref">T.O. 1F-106A-1CL-1 · 3-8a</span>
+        <span class="proc-step"><strong>2</strong> of 6</span>
       </div>
-      <div class="content-card">
-        <h2 class="content-title">Inspect Reservoir Sight Glass</h2>
-        <div class="content-body">
-          <p>Hydraulic reservoir — left aft equipment bay.</p>
-          <ul class="checklist">
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Sight glass visible and unobstructed</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Fluid level within GREEN band</li>
-          </ul>
-        </div>
+      <div class="proc-progress"><div class="proc-progress-fill" style="width:20%"></div></div>
+      <h2 class="proc-title">Inspect Reservoir Sight Glass</h2>
+      <div class="proc-body">
+        <p>Hydraulic reservoir — left aft equipment bay.</p>
+        <ul class="checklist">
+          <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Sight glass visible and unobstructed</li>
+          <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Fluid level within GREEN band</li>
+        </ul>
       </div>
       <div class="nav">
-        <button class="nav-btn" onclick="goTo(0)">&#8249; Back</button>
-        <button class="nav-btn" onclick="goTo(2)">Next &#8250;</button>
+        <button class="nav-btn nav-back" onclick="goTo(0)">&#8249; Back</button>
+        <button class="nav-btn nav-next" onclick="goTo(2)">Next &#8250;</button>
       </div>
     </div>
 
     <!-- Screen 2: Step b — Pressure gauges + CAUTION -->
     <div class="screen" id="screen-2">
-      <div class="panel-header">
-        <span class="panel-title">3-8b. Pressure Gauges</span>
-        <span class="step-counter"><strong>3</strong> of 6</span>
+      <div class="proc-meta">
+        <span class="proc-ref">T.O. 1F-106A-1CL-1 · 3-8b</span>
+        <span class="proc-step"><strong>3</strong> of 6</span>
       </div>
-      <div class="content-card">
-        <h2 class="content-title">Check System A &amp; B Pressure</h2>
-        <div class="content-body">
-          <p>Left main instrument panel.</p>
-          <ul class="checklist">
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>System A: 2,800–3,200 PSI</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>System B: 2,800–3,200 PSI</li>
-          </ul>
-          <div class="proc-block proc-caution"><strong>Caution</strong>If either system indicates below 2,800 PSI, do not continue. Refer to T.O. 1F-106A-2-70, para 4-12.</div>
-        </div>
+      <div class="proc-progress"><div class="proc-progress-fill" style="width:40%"></div></div>
+      <h2 class="proc-title">Check System A &amp; B Pressure</h2>
+      <div class="proc-body">
+        <p>Left main instrument panel.</p>
+        <ul class="checklist">
+          <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>System A: 2,800–3,200 PSI</li>
+          <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>System B: 2,800–3,200 PSI</li>
+        </ul>
+        <div class="proc-block proc-caution"><strong>Caution</strong>If either system indicates below 2,800 PSI, do not continue. Refer to T.O. 1F-106A-2-70, para 4-12.</div>
       </div>
       <div class="nav">
-        <button class="nav-btn" onclick="goTo(1)">&#8249; Back</button>
-        <button class="nav-btn" onclick="goTo(3)">Next &#8250;</button>
+        <button class="nav-btn nav-back" onclick="goTo(1)">&#8249; Back</button>
+        <button class="nav-btn nav-next" onclick="goTo(3)">Next &#8250;</button>
       </div>
     </div>
 
     <!-- Screen 3: Steps c + d — Lines & caution lights -->
     <div class="screen" id="screen-3">
-      <div class="panel-header">
-        <span class="panel-title">3-8c–d. Lines &amp; Advisory Panel</span>
-        <span class="step-counter"><strong>4</strong> of 6</span>
+      <div class="proc-meta">
+        <span class="proc-ref">T.O. 1F-106A-1CL-1 · 3-8c–d</span>
+        <span class="proc-step"><strong>4</strong> of 6</span>
       </div>
-      <div class="content-card">
-        <h2 class="content-title">Inspect Lines &amp; Caution Panel</h2>
-        <div class="content-body">
-          <ul class="checklist">
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>All visible hyd. lines — no wet spots, staining, or drips</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>All fittings — no evidence of leakage</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>No amber HYD caution lights illuminated</li>
-          </ul>
-        </div>
+      <div class="proc-progress"><div class="proc-progress-fill" style="width:60%"></div></div>
+      <h2 class="proc-title">Inspect Lines &amp; Caution Panel</h2>
+      <div class="proc-body">
+        <ul class="checklist">
+          <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>All visible hyd. lines — no wet spots, staining, or drips</li>
+          <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>All fittings — no evidence of leakage</li>
+          <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>No amber HYD caution lights illuminated</li>
+        </ul>
       </div>
       <div class="nav">
-        <button class="nav-btn" onclick="goTo(2)">&#8249; Back</button>
-        <button class="nav-btn" onclick="goTo(4)">Next &#8250;</button>
+        <button class="nav-btn nav-back" onclick="goTo(2)">&#8249; Back</button>
+        <button class="nav-btn nav-next" onclick="goTo(4)">Next &#8250;</button>
       </div>
     </div>
 
     <!-- Screen 4: Steps e + f — Speed brake + NOTE -->
     <div class="screen" id="screen-4">
-      <div class="panel-header">
-        <span class="panel-title">3-8e–f. Speed Brake Cycle</span>
-        <span class="step-counter"><strong>5</strong> of 6</span>
+      <div class="proc-meta">
+        <span class="proc-ref">T.O. 1F-106A-1CL-1 · 3-8e–f</span>
+        <span class="proc-step"><strong>5</strong> of 6</span>
       </div>
-      <div class="content-card">
-        <h2 class="content-title">Cycle Speed Brake &amp; Stow</h2>
-        <div class="content-body">
-          <ul class="checklist">
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Speed brake handle — OPEN, then CLOSED</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Operation smooth — no binding or hesitation</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>All controls returned to neutral/stowed</li>
-          </ul>
-          <div class="proc-block proc-note"><strong>Note</strong>Minor seepage at fitting B-14 acceptable if &le;2 drops/min. Record in AFTO Form 781A if observed.</div>
-        </div>
+      <div class="proc-progress"><div class="proc-progress-fill" style="width:80%"></div></div>
+      <h2 class="proc-title">Cycle Speed Brake &amp; Stow</h2>
+      <div class="proc-body">
+        <ul class="checklist">
+          <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Speed brake handle — OPEN, then CLOSED</li>
+          <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Operation smooth — no binding or hesitation</li>
+          <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>All controls returned to neutral/stowed</li>
+        </ul>
+        <div class="proc-block proc-note"><strong>Note</strong>Minor seepage at fitting B-14 acceptable if &le;2 drops/min. Record in AFTO Form 781A if observed.</div>
       </div>
       <div class="nav">
-        <button class="nav-btn" onclick="goTo(3)">&#8249; Back</button>
-        <button class="nav-btn" onclick="goTo(5)">Next &#8250;</button>
+        <button class="nav-btn nav-back" onclick="goTo(3)">&#8249; Back</button>
+        <button class="nav-btn nav-next" onclick="goTo(5)">Next &#8250;</button>
       </div>
     </div>
 
     <!-- Screen 5: Complete + Feedback -->
     <div class="screen" id="screen-5">
-      <div class="panel-header">
-        <span class="panel-title">3-8 Complete</span>
-        <span class="step-counter"><strong>6</strong> of 6</span>
+      <div class="proc-meta">
+        <span class="proc-ref">T.O. 1F-106A-1CL-1 · 3-8</span>
+        <span class="proc-step"><strong>6</strong> of 6</span>
       </div>
-      <div class="content-card">
-        <h2 class="content-title">Hydraulic Preflight Complete</h2>
-        <div class="content-body" style="flex: none; overflow: visible;">
-          <p style="margin-bottom: 14px;"><strong>All steps verified.</strong> How helpful were these instructions?</p>
+      <div class="proc-progress"><div class="proc-progress-fill" style="width:100%"></div></div>
+      <h2 class="proc-title">Hydraulic Preflight Complete</h2>
+      <div class="proc-body">
+        <p><strong>All steps verified.</strong> How helpful were these instructions?</p>
+        <div style="margin-top:14px">
           <div class="likert-scale" id="likertScale"></div>
           <div class="likert-labels"><span>Not helpful</span><span>Very helpful</span></div>
         </div>
       </div>
       <div class="nav">
-        <button class="nav-btn" onclick="goTo(4)">&#8249; Back</button>
-        <button class="nav-btn" onclick="dismissMenu()">Submit &amp; Exit</button>
+        <button class="nav-btn nav-back" onclick="goTo(4)">&#8249; Back</button>
+        <button class="nav-btn nav-next" onclick="dismissMenu()">Submit &amp; Exit</button>
       </div>
     </div>
   </div>
