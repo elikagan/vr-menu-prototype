@@ -365,6 +365,38 @@
   }
   .to-page .to-warning strong { display: block; font-size: 10px; letter-spacing: 2px; margin-bottom: 3px; }
 
+  /* ── Inline WARNING / CAUTION / NOTE blocks ── */
+  .proc-block {
+    margin: 10px 0;
+    padding: 7px 10px 8px;
+    border-radius: 5px;
+    font-size: 10.5px;
+    line-height: 1.55;
+  }
+  .proc-block strong {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    font-weight: 700;
+  }
+  .proc-warning {
+    background: rgba(200, 50, 50, 0.13);
+    border-left: 2px solid rgba(220, 80, 80, 0.55);
+    color: rgba(255, 165, 145, 0.92);
+  }
+  .proc-caution {
+    background: rgba(190, 140, 0, 0.13);
+    border-left: 2px solid rgba(210, 165, 0, 0.55);
+    color: rgba(255, 215, 120, 0.92);
+  }
+  .proc-note {
+    background: rgba(70, 110, 200, 0.13);
+    border-left: 2px solid rgba(100, 145, 220, 0.45);
+    color: rgba(160, 195, 255, 0.88);
+  }
+
   /* ── Likert scale (feedback screen) ── */
   .likert-scale { display: flex; gap: 8px; margin: 12px 0; }
   .likert-btn {
@@ -581,61 +613,53 @@
 
   <!-- T.O. Page Panel -->
   <div class="panel to-panel" id="toPanel" style="top: 50%; right: 40px; height: 380px; transform: translateY(-50%);">
-    <div class="to-header">T.O. 1F-16CJ-2-00GS-00-1 &mdash; Page 2-3</div>
+    <div class="to-header">T.O. 1F-106A-1CL-1 &mdash; Section III, Para 3-8</div>
     <div class="to-page">
       <div class="to-doc-header">
-        <div class="to-number">T.O. 1F-16CJ-2-00GS-00-1</div>
-        <div class="to-doc-title">General System — Organizational Maintenance</div>
-        <div class="to-doc-subtitle">Preflight / Postflight Inspection Procedures</div>
+        <div class="to-number">T.O. 1F-106A-1CL-1</div>
+        <div class="to-doc-title">Dash-1 Checklist — F-106A/B Delta Dart</div>
+        <div class="to-doc-subtitle">Section III — Preflight Inspection Procedures</div>
       </div>
-      <div class="to-section">Section II — Preflight Inspection</div>
-      <div class="to-para-num">2-1. GENERAL.</div>
-      <div class="to-text">This section contains procedures for performing preflight inspection of aircraft systems. All inspections shall be performed in the sequence listed.</div>
+      <div class="to-section">Section III — Preflight Inspection</div>
       <div class="to-warning">
         <strong>&#9888; WARNING</strong>
-        Ensure all ground safety pins are installed and hydraulic pressure is verified before performing flight control checks.
+        Do not perform hydraulic checks with engine running unless ground safety pins are installed in all flight control surfaces. Failure to comply may result in serious injury or death.
       </div>
-      <div class="to-para-num">2-2. HYDRAULIC SYSTEM CHECK.</div>
-      <div class="to-sub">a. Verify System A pressure gauge indicates between 2,800 and 3,200 PSI.</div>
-      <div class="to-sub">b. Verify System B pressure gauge indicates between 2,800 and 3,200 PSI.</div>
-      <div class="to-sub">c. Check that no amber HYD advisory warnings are illuminated on caution panel.</div>
-      <div class="to-sub">d. If pressure is not within limits, do not continue. Refer to T.O. 1F-16CJ-2-70GS-00-1.</div>
-      <div class="to-para-num">2-3. FLIGHT CONTROL OPERATIONAL CHECK.</div>
-      <div class="to-sub">a. Move control stick full LEFT. Verify left aileron trailing edge rises.</div>
-      <div class="to-sub">b. Move control stick full RIGHT. Verify right aileron trailing edge rises.</div>
-      <div class="to-sub">c. Move control stick full FORWARD. Verify elevator deflects downward.</div>
-      <div class="to-sub">d. Depress left rudder pedal fully. Verify rudder deflects left.</div>
-      <div class="to-sub">e. Return all controls to neutral position.</div>
+      <div class="to-para-num">3-8. HYDRAULIC SYSTEM PREFLIGHT CHECK.</div>
+      <div class="to-text">Perform the following steps prior to engine start.</div>
+      <div class="to-sub">a. Inspect hydraulic reservoir sight glass. Fluid level must indicate within the GREEN band.</div>
+      <div class="to-sub">b. Check System A and System B pressure gauges on the left main instrument panel.</div>
+      <div class="to-sub" style="padding-left:28px">1. System A: 2,800 to 3,200 PSI.</div>
+      <div class="to-sub" style="padding-left:28px">2. System B: 2,800 to 3,200 PSI.</div>
       <div class="to-warning">
         <strong>CAUTION</strong>
-        Do not exceed normal control force limits during operational check.
+        If either system indicates below 2,800 PSI, do not continue. Refer to T.O. 1F-106A-2-70, para 4-12.
       </div>
-      <div class="to-para-num">2-4. AVIONICS SYSTEMS VERIFICATION.</div>
-      <div class="to-sub">a. Verify FMS has completed initialization.</div>
-      <div class="to-sub">b. Verify NAV radio frequencies are set per mission briefing.</div>
-      <div class="to-sub">c. Verify transponder squawk code is set per ATC assignment.</div>
-      <div class="to-sub">d. Initiate autopilot BIT. Verify BIT completes with no faults.</div>
-      <div class="to-para-num">2-5. ENGINE INSTRUMENT CHECK.</div>
-      <div class="to-sub">a. Verify oil pressure: 40-65 PSI.</div>
-      <div class="to-sub">b. Verify EGT is within normal idle limits.</div>
-      <div class="to-sub">c. Verify fuel flow matches expected idle flow rate.</div>
+      <div class="to-sub">c. Inspect all visible hydraulic lines and fittings for evidence of leakage (wet spots, staining, drips).</div>
+      <div class="to-sub">d. Verify no amber HYD caution lights are illuminated on the caution/advisory panel.</div>
+      <div class="to-sub">e. Cycle the speed brake control handle — OPEN then CLOSED. Verify smooth operation with no binding or hesitation.</div>
+      <div class="to-sub">f. Return all controls to the neutral/stowed position.</div>
+      <div class="to-warning" style="border:none; padding-left:0; text-align:left;">
+        <strong>NOTE</strong>
+        Minor seepage at fitting B-14 is acceptable provided fluid loss does not exceed 2 drops per minute. Record in AFTO Form 781A if observed.
+      </div>
     </div>
   </div>
 
   <!-- Main Procedure Panel -->
   <div class="panel main-panel" id="mainPanel" style="top: 50%; left: 60px; transform: translateY(-50%);">
 
-    <!-- Screen 0: Landing -->
+    <!-- Screen 0: Intro + WARNING -->
     <div class="screen active" id="screen-0">
       <div class="panel-header">
-        <span class="panel-title">Sample Procedure Name</span>
-        <span class="step-counter"><strong>1</strong> of 14</span>
+        <span class="panel-title">T.O. 1F-106A-1CL-1</span>
+        <span class="step-counter"><strong>1</strong> of 6</span>
       </div>
       <div class="content-card">
-        <h2 class="content-title">Pre-Flight Systems Check</h2>
+        <h2 class="content-title">3-8. Hydraulic System Preflight</h2>
         <div class="content-body">
-          <p><strong>3 steps — complete in order.</strong></p>
-          <p>Use <strong>Need a Hint?</strong> if you get stuck. Use <strong>GO FORWARD</strong> to begin.</p>
+          <p>Perform the following steps prior to engine start. <strong>6 steps — complete in order.</strong></p>
+          <div class="proc-block proc-warning"><strong>&#9888; Warning</strong>Do not perform hydraulic checks with engine running unless ground safety pins are installed in all flight control surfaces. Failure to comply may result in serious injury or death.</div>
         </div>
       </div>
       <div class="nav">
@@ -644,20 +668,19 @@
       </div>
     </div>
 
-    <!-- Screen 1: Hydraulic Pressure -->
+    <!-- Screen 1: Step a — Reservoir -->
     <div class="screen" id="screen-1">
       <div class="panel-header">
-        <span class="panel-title">Procedure Instructions</span>
-        <span class="step-counter"><strong>2</strong> of 14</span>
+        <span class="panel-title">3-8a. Reservoir Check</span>
+        <span class="step-counter"><strong>2</strong> of 6</span>
       </div>
       <div class="content-card">
-        <h2 class="content-title">Verify Hydraulic Pressure</h2>
+        <h2 class="content-title">Inspect Reservoir Sight Glass</h2>
         <div class="content-body">
-          <p><strong>Center instrument panel, left of thrust indicators.</strong></p>
+          <p>Hydraulic reservoir — left aft equipment bay.</p>
           <ul class="checklist">
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>System A: 2,800–3,200 PSI</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>System B: 2,800–3,200 PSI</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>No amber warnings illuminated</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Sight glass visible and unobstructed</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Fluid level within GREEN band</li>
           </ul>
         </div>
       </div>
@@ -667,22 +690,21 @@
       </div>
     </div>
 
-    <!-- Screen 2: Flight Controls -->
+    <!-- Screen 2: Step b — Pressure gauges + CAUTION -->
     <div class="screen" id="screen-2">
       <div class="panel-header">
-        <span class="panel-title">Procedure Instructions</span>
-        <span class="step-counter"><strong>3</strong> of 14</span>
+        <span class="panel-title">3-8b. Pressure Gauges</span>
+        <span class="step-counter"><strong>3</strong> of 6</span>
       </div>
       <div class="content-card">
-        <h2 class="content-title">Inspect Flight Controls</h2>
+        <h2 class="content-title">Check System A &amp; B Pressure</h2>
         <div class="content-body">
-          <p><strong>Visually confirm each surface moves correctly.</strong></p>
+          <p>Left main instrument panel.</p>
           <ul class="checklist">
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Yoke full left — left aileron rises</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Yoke full right — right aileron rises</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Yoke forward — elevator deflects down</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Left rudder pedal — rudder deflects left</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>System A: 2,800–3,200 PSI</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>System B: 2,800–3,200 PSI</li>
           </ul>
+          <div class="proc-block proc-caution"><strong>Caution</strong>If either system indicates below 2,800 PSI, do not continue. Refer to T.O. 1F-106A-2-70, para 4-12.</div>
         </div>
       </div>
       <div class="nav">
@@ -691,21 +713,19 @@
       </div>
     </div>
 
-    <!-- Screen 3: Avionics -->
+    <!-- Screen 3: Steps c + d — Lines & caution lights -->
     <div class="screen" id="screen-3">
       <div class="panel-header">
-        <span class="panel-title">Procedure Instructions</span>
-        <span class="step-counter"><strong>4</strong> of 14</span>
+        <span class="panel-title">3-8c–d. Lines &amp; Advisory Panel</span>
+        <span class="step-counter"><strong>4</strong> of 6</span>
       </div>
       <div class="content-card">
-        <h2 class="content-title">Confirm Avionics Status</h2>
+        <h2 class="content-title">Inspect Lines &amp; Caution Panel</h2>
         <div class="content-body">
-          <p><strong>Avionics panel — all systems nominal.</strong></p>
           <ul class="checklist">
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>FMS initialized</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>NAV frequencies set</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Transponder squawk code assigned</li>
-            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Autopilot self-test passed</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>All visible hyd. lines — no wet spots, staining, or drips</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>All fittings — no evidence of leakage</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>No amber HYD caution lights illuminated</li>
           </ul>
         </div>
       </div>
@@ -715,16 +735,21 @@
       </div>
     </div>
 
-    <!-- Screen 4: Complete -->
+    <!-- Screen 4: Steps e + f — Speed brake + NOTE -->
     <div class="screen" id="screen-4">
       <div class="panel-header">
-        <span class="panel-title">Procedure Complete</span>
+        <span class="panel-title">3-8e–f. Speed Brake Cycle</span>
+        <span class="step-counter"><strong>5</strong> of 6</span>
       </div>
       <div class="content-card">
-        <h2 class="content-title">Pre-Flight Check Complete</h2>
+        <h2 class="content-title">Cycle Speed Brake &amp; Stow</h2>
         <div class="content-body">
-          <p><strong>All steps verified.</strong> You may now close this menu and continue with the experience.</p>
-          <p>Use <strong>EXIT</strong> to return to the VR environment.</p>
+          <ul class="checklist">
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Speed brake handle — OPEN, then CLOSED</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>Operation smooth — no binding or hesitation</li>
+            <li onclick="this.classList.toggle('checked')"><span class="check-icon">&check;</span>All controls returned to neutral/stowed</li>
+          </ul>
+          <div class="proc-block proc-note"><strong>Note</strong>Minor seepage at fitting B-14 acceptable if &le;2 drops/min. Record in AFTO Form 781A if observed.</div>
         </div>
       </div>
       <div class="nav">
@@ -733,15 +758,16 @@
       </div>
     </div>
 
-    <!-- Screen 5: Feedback -->
+    <!-- Screen 5: Complete + Feedback -->
     <div class="screen" id="screen-5">
       <div class="panel-header">
-        <span class="panel-title">Feedback</span>
+        <span class="panel-title">3-8 Complete</span>
+        <span class="step-counter"><strong>6</strong> of 6</span>
       </div>
       <div class="content-card">
-        <h2 class="content-title">How helpful were these instructions?</h2>
+        <h2 class="content-title">Hydraulic Preflight Complete</h2>
         <div class="content-body" style="flex: none; overflow: visible;">
-          <p style="margin-bottom: 18px;">Rate your experience on a scale of 1 to 10.</p>
+          <p style="margin-bottom: 14px;"><strong>All steps verified.</strong> How helpful were these instructions?</p>
           <div class="likert-scale" id="likertScale"></div>
           <div class="likert-labels"><span>Not helpful</span><span>Very helpful</span></div>
         </div>
