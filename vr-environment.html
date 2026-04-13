@@ -212,12 +212,14 @@
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
     font-size: 9px;
-    transition: 0.2s ease;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    color: transparent;
   }
   .checklist li.checked .check-icon {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(80, 200, 120, 0.85);
+    border-color: rgba(80, 200, 120, 0.9);
     color: white;
+    transform: scale(1.1);
   }
 
   /* Nav buttons */
